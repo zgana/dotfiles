@@ -127,22 +127,8 @@ silent call system ('mkdir -p $HOME/.vim/undo')
 " }}}
 
 " Section: Appearance {{{
-try
-  " Solarized options
-  "let g:solarized_term = 1
-  colorscheme solarized8_dark_high
-catch                                                                         
-endtry
-"set background=dark
-colorscheme solarized8_dark_high
-let g:airline_theme='cobalt2'
-set termguicolors
-"set t_Co=256
 
-"colorscheme janah
-"let g:airline_theme = 'molokai'
 let g:airline_powerline_fonts = 1
-
 
 function! WN(...)
     let builder = a:1
