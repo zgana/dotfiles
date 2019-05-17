@@ -435,5 +435,6 @@ autocmd BufEnter *.cpp,*.cxx,*.cc,*.C silent! call MDR_cpp()
 
 " }}}
 
+runtime local/init.vim
 
 " vim: set fdm=marker:
