@@ -15,7 +15,7 @@ install_dirs = {
         }
 
 home = os.getenv('HOME')
-this_dir = os.path.dirname(__file__)
+this_dir = os.path.abspath(os.path.dirname(__file__))
 install_dirs = {
         '{}/{}'.format(this_dir, k): '{}/{}'.format(home, v)
         for (k,v) in install_dirs.items()}
@@ -26,25 +26,36 @@ def backup_name(path):
     return '{}.dotfiles_backup_{}'.format(path, timestamp)
 
 def create_link(in_path, real_path, dry=False):
+    print(in_path)
+    print(real_path)
     # if it's already a link, move on
     if os.path.islink(real_path):
-        print('{} is already a link'.format(real_path))
+        print('already a link:\n{}\n'.format(real_path))
         return
     # if it exists, create backup
     if os.path.exists(real_path):
         backup_path = backup_name(real_path)
-        print('backing up {} to {}'.format(real_path, backup_path))
+        print('backing up:\n{} to {}'.format(real_path, backup_path))
         if not dry:
             os.rename(real_path, backup_path)
     # create link
-    print('creating symlink {} -> {}'.format(real_path, in_path))
+    print('creating symlink:\n{} -> {}'.format(real_path, in_path))
     if not dry:
         os.symlink(in_path, real_path)
+    print()
 
-# loop over install dirs
-for (k, v) in install_dirs.items():
-    in_paths = glob('{}/*'.format(k))
-    real_paths = glob('{}/*'.format(v))
+def handle_dir(src, dest, dry=False):
+    in_paths = glob('{}/*'.format(src))
+    real_paths = []
+    for in_path in in_paths:
+        basename = os.path.basename(in_path)
+        real_path = '{}/{}'.format(dest, basename)
+        real_paths.append(real_path)
     # loop over install items
     for (in_path, real_path) in zip(in_paths, real_paths):
-        create_link(in_path, real_path, dry=True)
+        create_link(in_path, real_path, dry=dry)
+
+
+# loop over install dirs
+for (src, dest) in install_dirs.items():
+    handle_dir(src, dest, dry=False)

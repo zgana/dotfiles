@@ -87,38 +87,40 @@ endif
 let mapleader = ' '
 let maplocalleader = '\'
 map <s-space> <leader>
+
 set autoread
-set backspace		=eol,indent,start
-set browsedir		=current
-set bufhidden		=hide
-set cinoptions		=(0,g0,t0,Ws,*200,:0,)200
-set completeopt         =menuone,longest
 set cursorline
-set noerrorbells
 set expandtab
-set formatoptions	+=tcqnjr
-set grepprg		=grep\ -nH\ $*
 set hidden
 set ignorecase smartcase
 set incsearch
 set joinspaces
 set magic
 set modeline
+set noerrorbells
 set nohlsearch
-set nrformats		=
 set ruler
-set sts			=4
-set sw			=4
-set tabstop		=8
-set tw			=76
-set undodir="${HOME}.vim/undo"
 set undofile
+set wildmenu
+
+set backspace=eol,indent,start
+set browsedir=current
+set bufhidden=hide
+set cinoptions=(0,g0,t0,Ws,*200,:0,)200
+set completeopt=menuone,longest
+set formatoptions+=tcqnjr
+set grepprg=grep\ -nH\ $*
+set nrformats=
+set shiftwidth=4
+set softtabstop=4
+set tabstop=8
+set textwidth=79
+set undodir="${HOME}.vim/undo"
 set undolevels=1000
 set undoreload=10000
-set virtualedit		=block
-set wildignore		=*.o
-set wildmenu
-set wildmode            =list:longest
+set virtualedit=block
+set wildignore=*.o
+set wildmode=list:longest
 
 silent call system ('mkdir -p $HOME/.vim/undo')
 
@@ -409,6 +411,7 @@ autocmd BufEnter * silent! let b:wordwrap_is_on = 0
 " LaTeX {{{
 function! MDR_tex()
     setlocal shiftwidth=2
+    setlocal textwidth=90
 endfunction
 autocmd BufEnter *.tex silent! call MDR_tex()
 "}}}
