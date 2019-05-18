@@ -45,7 +45,7 @@ def create_link(in_path, real_path, dry=False):
     print()
 
 def handle_dir(src, dest, dry=False):
-    in_paths = glob('{}/*'.format(src))
+    in_paths = sorted(glob('{}/*'.format(src)) + glob('{}/.*'.format(src)))
     real_paths = []
     for in_path in in_paths:
         basename = os.path.basename(in_path)
@@ -54,7 +54,6 @@ def handle_dir(src, dest, dry=False):
     # loop over install items
     for (in_path, real_path) in zip(in_paths, real_paths):
         create_link(in_path, real_path, dry=dry)
-
 
 # loop over install dirs
 for (src, dest) in install_dirs.items():
