@@ -36,8 +36,13 @@ if dein#load_state($HOME . '/.cache/dein')
     " call dein#add('honza/vim-snippets')
     call dein#add('jiangmiao/auto-pairs')
     call dein#add('ervandew/supertab')
-    "call dein#add('Shougo/deoplete.nvim')
-    "call dein#add('zchee/deoplete-jedi')
+
+    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('Shougo/neco-vim')
+    call dein#add('Shougo/deoplete-clangx')
+    call dein#add('Shougo/neoinclude.vim')
+    call dein#add('zchee/deoplete-jedi')
+
     call dein#add('davidhalter/jedi-vim')
     call dein#add('davidhalter/jedi')
 
@@ -107,7 +112,7 @@ set backspace=eol,indent,start
 set browsedir=current
 set bufhidden=hide
 set cinoptions=(0,g0,t0,Ws,*200,:0,)200
-set completeopt=menuone,longest
+set completeopt=menuone
 set formatoptions+=tcqnjr
 set grepprg=grep\ -nH\ $*
 set nrformats=
@@ -373,7 +378,11 @@ cnoremap <c-n> <down>
 " }}}
 
 " Section: Completion {{{
-inoremap <c-n> <c-x><c-o>
+"inoremap <c-n> <c-x><c-n>
+"inoremap <c-p> <c-x><c-p>
+let g:jedi#completions_enabled = 0
+let g:deoplete#enable_at_startup = 1
+call deoplete#custom#option('auto_complete_delay', 3000)
 " }}}
 
 " Section: auto-pairs {{{
