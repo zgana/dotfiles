@@ -31,18 +31,22 @@ if dein#load_state($HOME . '/.cache/dein')
     " fzf
     call dein#add('junegunn/fzf.vim')
 
+    " version control
+    call dein#add('tpope/vim-fugitive')
+
     " Completion
     call dein#add('SirVer/ultisnips')
     " call dein#add('honza/vim-snippets')
     call dein#add('jiangmiao/auto-pairs')
-    call dein#add('ervandew/supertab')
+    "call dein#add('ervandew/supertab')
 
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
     call dein#add('Shougo/deoplete-clangx')
     call dein#add('Shougo/neoinclude.vim')
     call dein#add('zchee/deoplete-jedi')
-
+    call dein#add('rust-lang/rust.vim')
+    call dein#add('sebastianmarkow/deoplete-rust')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('davidhalter/jedi')
 
@@ -262,6 +266,7 @@ noremap <leader>wl <c-w>l
 noremap <leader>wq <c-w><c-q>
 noremap <leader>wd <c-w><c-q>
 noremap <leader>wo <c-w><c-o>
+noremap <leader>wx :copen<cr>
 " }}}
 " Tabs {{{
 noremap <leader>t1 1gt
@@ -378,11 +383,19 @@ cnoremap <c-n> <down>
 " }}}
 
 " Section: Completion {{{
-"inoremap <c-n> <c-x><c-n>
-"inoremap <c-p> <c-x><c-p>
-let g:jedi#completions_enabled = 0
+"" use tab to forward cycle
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+" use tab to backward cycle
+inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
+"let g:jedi#completions_enabled = 0
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#option('auto_complete_delay', 3000)
+
+" rust
+let g:deoplete#sources#rust#racer_binary = '/home/mike/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = '/home/mike/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+let g:deoplete#sources#rust#disable_keymap=1
+let g:deoplete#sources#rust#documentation_max_height=20
 " }}}
 
 " Section: auto-pairs {{{
@@ -404,11 +417,18 @@ autocmd BufEnter * silent! lcd %:p:h
 autocmd BufEnter * silent! let b:wordwrap_is_on = 0
 
 " LaTeX {{{
+let g:vimtex_quickfix_open_on_warning = 0
+let g:vimtex_latexmk_continuous = 0
+let g:vimtex_fold_enabled = 1
 function! MDR_tex()
     setlocal shiftwidth=2
     setlocal textwidth=90
+    let b:AutoPairs = {"``": "''", "`": "'", '{': '}', '(': ')', '[': ']'}
+    inoremap <buffer> <m-i> \item <c-o>==<c-o>A
+    inoremap <buffer> <c-cr> <cr>\item <c-o>==<c-o>A
+    map <buffer> <localleader>la <esc>:up<cr><localleader>ll
 endfunction
-autocmd BufEnter *.tex silent! call MDR_tex()
+autocmd BufRead *.tex silent! call MDR_tex()
 "}}}
 " Python {{{
 function! MDR_py()
@@ -418,28 +438,48 @@ function! MDR_py()
     let g:jedi#documentation_command = "<leader>mvd"
     let g:jedi#rename_command = "<leader>mr"
     let g:jedi#usages_command = "<leader>mvu"
-    noremap <leader>mvm :Pyimport 
-    noremap <leader>mgg :call jedi#goto()<cr>
-    noremap <leader>mga :call jedi#goto_assignments()<cr>
-    noremap <leader>mvd :call jedi#show_documentation()<cr>
-    noremap <leader>mr  :call jedi#rename()<cr>
-    noremap <leader>mvu :call jedi#usages()<cr>
-    noremap <localleader>vm :Pyimport
-    noremap <localleader>gg :call jedi#goto()<cr>
-    noremap <localleader>ga :call jedi#goto_assignments()<cr>
-    noremap <localleader>vd :call jedi#show_documentation()<cr>
-    noremap <localleader>r  :call jedi#rename()<cr>
-    noremap <localleader>vu :call jedi#usages()<cr>
+    noremap <buffer> <leader>mvm :Pyimport 
+    noremap <buffer> <leader>mgg :call jedi#goto()<cr>
+    noremap <buffer> <leader>mga :call jedi#goto_assignments()<cr>
+    noremap <buffer> <leader>mvd :call jedi#show_documentation()<cr>
+    noremap <buffer> <leader>mr  :call jedi#rename()<cr>
+    noremap <buffer> <leader>mvu :call jedi#usages()<cr>
+    noremap <buffer> <localleader>vm :Pyimport
+    noremap <buffer> <localleader>gg :call jedi#goto()<cr>
+    noremap <buffer> <localleader>ga :call jedi#goto_assignments()<cr>
+    noremap <buffer> <localleader>vd :call jedi#show_documentation()<cr>
+    noremap <buffer> <localleader>r  :call jedi#rename()<cr>
+    noremap <buffer> <localleader>vu :call jedi#usages()<cr>
     setlocal tw=90
 endfunction
-autocmd BufEnter *.py silent! call MDR_py()
+autocmd BufRead *.py silent! call MDR_py()
+" }}}
+" Rust {{{
+function! MDR_rust()
+    noremap <buffer> <leader>mgg <plug>DeopleteRustGoToDefinitionDefault
+    noremap <buffer> <leader>mvd <plug>DeopleteRustShowDocumentation
+    noremap <buffer> <localleader>gg <plug>DeopleteRustGoToDefinitionDefault
+    noremap <buffer> <localleader>vd <plug>DeopleteRustShowDocumentation
+    setlocal tw=90
+endfunction
+autocmd BufRead *.rs silent! call MDR_rust()
 " }}}
 " C++ {{{
 function! MDR_cpp()
     setlocal tw=90
     setlocal foldmethod=syntax
 endfunction
-autocmd BufEnter *.cpp,*.cxx,*.cc,*.C silent! call MDR_cpp()
+autocmd BufRead *.cpp,*.cxx,*.cc,*.C silent! call MDR_cpp()
+" }}}
+" text {{{
+function! MDR_text()
+    setlocal autoindent
+    setlocal spell
+    setlocal spelllang=en
+    setlocal comments+=b:>
+    let b:commentary_format = "> "
+endfunction
+autocmd BufRead *.txt silent! call MDR_text()
 " }}}
 
 " }}}
