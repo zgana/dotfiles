@@ -59,6 +59,9 @@ plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
+# Rust PATH
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh

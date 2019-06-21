@@ -283,6 +283,7 @@ noremap <leader>t. :tabmove +1<cr>
 noremap <leader>tt :tabedit<cr>
 noremap <leader>te :tabedit<cr>:Files<cr> 
 noremap <leader>tE :tabedit<cr>:Files
+noremap <leader>tb :tabedit<cr>:History<cr>
 noremap <leader>tq :tabclose<cr>
 " }}}
 " Project {{{
@@ -342,6 +343,7 @@ let g:multi_cursor_quit_key            = '<esc>'
 " }}}
 " Toggles {{{
 noremap <leader>on :set number! relativenumber!<cr>
+noremap <leader>oN :set number!<cr>
 noremap <leader>op :call AutoPairsToggle()<cr>
 " TODO: figure out how to actually toggle
 noremap <leader>ow :call g:Wordwrap_begin()<cr>
@@ -389,7 +391,7 @@ inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 inoremap <silent><expr><s-tab> pumvisible() ? "\<c-p>" : "\<s-tab>"
 "let g:jedi#completions_enabled = 0
 let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('auto_complete_delay', 3000)
+call deoplete#custom#option('auto_complete_delay', 300)
 
 " rust
 let g:deoplete#sources#rust#racer_binary = '/home/mike/.cargo/bin/racer'
@@ -423,7 +425,8 @@ let g:vimtex_fold_enabled = 1
 function! MDR_tex()
     setlocal shiftwidth=2
     setlocal textwidth=90
-    let b:AutoPairs = {"``": "''", "`": "'", '{': '}', '(': ')', '[': ']'}
+    "let b:AutoPairs = {"``":"''", "`":"'", '{':'}', '(':')', '[':']', }
+    let b:AutoPairs = AutoPairsDefine({'\$':'\$', "`":"'", "``":"''"}, ['"', "'"])
     inoremap <buffer> <m-i> \item <c-o>==<c-o>A
     inoremap <buffer> <c-cr> <cr>\item <c-o>==<c-o>A
     map <buffer> <localleader>la <esc>:up<cr><localleader>ll
