@@ -29,6 +29,7 @@ if dein#load_state($HOME . '/.cache/dein')
     "call dein#add('severin-lemaignan/vim-minimap')
 
     " fzf
+    call dein#add('junegunn/fzf')
     call dein#add('junegunn/fzf.vim')
 
     " version control
