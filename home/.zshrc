@@ -56,11 +56,9 @@ plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol 
 
 # User configuration
 
-# PATH
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # Rust PATH
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+#export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -217,3 +215,6 @@ if [ -d $HOME/src/neural-style-deps ]
 then
     . /home/mike/src/neural-style-deps/torch/install/bin/torch-activate
 fi
+
+# PATH
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
