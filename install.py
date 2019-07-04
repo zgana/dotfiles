@@ -44,9 +44,20 @@ def create_link(in_path, real_path, dry=False):
         os.symlink(in_path, real_path)
     print()
 
+def ensure_dir(dirname):
+    """Make sure ``dirname`` exists and is a directory."""
+    if not os.path.isdir(dirname):
+        try:
+            os.makedirs(dirname)   # throws if exists as file
+        except OSError as e:
+            if e.errno != os.errno.EEXIST:
+                raise
+    return dirname
+
 def handle_dir(src, dest, dry=False):
     in_paths = sorted(glob('{}/*'.format(src)) + glob('{}/.*'.format(src)))
     real_paths = []
+    ensure_dir(dest)
     for in_path in in_paths:
         basename = os.path.basename(in_path)
         real_path = '{}/{}'.format(dest, basename)
