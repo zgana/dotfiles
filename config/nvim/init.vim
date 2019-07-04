@@ -9,7 +9,7 @@ endif
 " Required:
 set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
 set runtimepath+=$HOME/.config/nvim
-set runtimepath+=$HOME/.fzf
+"set runtimepath+=$HOME/.fzf
 
 " Required:
 if dein#load_state($HOME . '/.cache/dein')
@@ -42,11 +42,11 @@ if dein#load_state($HOME . '/.cache/dein')
 
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
-    call dein#add('Shougo/deoplete-clangx')
-    call dein#add('Shougo/neoinclude.vim')
+    "call dein#add('Shougo/deoplete-clangx')
+    "call dein#add('Shougo/neoinclude.vim')
     call dein#add('zchee/deoplete-jedi')
-    call dein#add('rust-lang/rust.vim')
-    call dein#add('sebastianmarkow/deoplete-rust')
+    "call dein#add('rust-lang/rust.vim')
+    "call dein#add('sebastianmarkow/deoplete-rust')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('davidhalter/jedi')
 
