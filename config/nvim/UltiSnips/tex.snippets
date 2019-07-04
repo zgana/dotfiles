@@ -93,14 +93,30 @@ endsnippet
 snippet FBF "texttt" A
 \\textbf{$1}
 endsnippet
+
+snippet vs "vspace"
+\\vspace{$1em}$0
+endsnippet
+
+snippet hs "hspace"
+\\hspace{$1em}$0
+endsnippet
+
 # }}}
 
 # Beamer {{{
 
+snippet frame "bframe"
+\\begin{frame}
+  {$1}
+  $2
+\\end{frame}
+endsnippet
+
 snippet EBFE "begin frame" A
 \\begin{frame}
   {$1}
-  $0
+  $2
 \\end{frame}
 endsnippet
 
@@ -182,4 +198,4 @@ endsnippet
 # }}}
 # }}}
 
-# vim: set fdm=marker:
+# vim: fdm=marker
