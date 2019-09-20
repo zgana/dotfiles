@@ -100,6 +100,7 @@ if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
   alias gvim='nvim-gtk'
   alias vv='nvim-gtk'
+  alias dvim='nvim -R -'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
 alias qvim='echo you probably want vv'
