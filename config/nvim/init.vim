@@ -3,13 +3,13 @@
 
 "dein Scripts-----------------------------
 if &compatible
-  set nocompatible               " Be iMproved
+    set nocompatible               " Be iMproved
 endif
 
 " Required:
 set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
 set runtimepath+=$HOME/.config/nvim
-"set runtimepath+=$HOME/.fzf
+set runtimepath+=$HOME/.fzf
 
 " Required:
 if dein#load_state($HOME . '/.cache/dein')
@@ -37,24 +37,21 @@ if dein#load_state($HOME . '/.cache/dein')
 
     " Completion
     call dein#add('SirVer/ultisnips')
-    " call dein#add('honza/vim-snippets')
     call dein#add('jiangmiao/auto-pairs')
-    "call dein#add('ervandew/supertab')
 
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
-    "call dein#add('Shougo/deoplete-clangx')
-    "call dein#add('Shougo/neoinclude.vim')
     call dein#add('zchee/deoplete-jedi')
-    "call dein#add('rust-lang/rust.vim')
-    "call dein#add('sebastianmarkow/deoplete-rust')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('davidhalter/jedi')
 
     " Refactoring
     "call dein#add('python-rope/ropevim')
     call dein#add('tpope/vim-commentary')
+    call dein#add('tpope/vim-surround')
     call dein#add('terryma/vim-multiple-cursors')
+    call dein#add('vim-scripts/ReplaceWithRegister')
+    call dein#add('michaeljsmith/vim-indent-object')
 
     " Colors
     " TODO: prune
@@ -223,6 +220,7 @@ noremap <leader>fdp :pwd<cr>
 noremap <leader>fyy :echo expand('%:p')<cr>
 " config
 noremap <leader>fif :e ~/.config/nvim/init.vim<cr>
+noremap <leader>fit :tabe ~/.config/nvim/init.vim<cr>
 noremap <leader>fgf :e ~/.config/nvim/ginit.vim<cr>
 noremap <leader>fiF <c-w><c-v><c-w>l:e ~/.config/nvim/init.vim<cr>
 noremap <silent><leader>fis :so ~/.config/nvim/init.vim<cr>:echo "init.vim reloaded."<cr>
@@ -313,10 +311,10 @@ noremap <leader>sn :Snippets<cr>
 noremap	<leader>y "+y
 
 " whole-file copy suitable for gmail
-" the following should work, but doesn't for unknown reasons:
-"noremap	<leader>yg :%yank +<cr>
-" instead, we need the following:
-noremap	<leader>yg :!pyxclip-i %<cr><c-l>
+" the following should work, but on some machines, doesn't for unknown reasons:
+noremap	<leader>yg :%yank +<cr>
+" instead, we sometimes need the following:
+"noremap	<leader>yg :!pyxclip-i %<cr><c-l>
 " which relies on a little script that looks like:
 "#!/usr/bin/env python3
 "import pyperclip
@@ -346,6 +344,7 @@ let g:multi_cursor_quit_key            = '<esc>'
 noremap <leader>on :set number! relativenumber!<cr>
 noremap <leader>oN :set number!<cr>
 noremap <leader>op :call AutoPairsToggle()<cr>
+noremap <leader>os :set spell!<cr>
 " TODO: figure out how to actually toggle
 noremap <leader>ow :call g:Wordwrap_begin()<cr>
 noremap <leader>oW :call g:Wordwrap_end()<cr>
@@ -428,9 +427,11 @@ function! MDR_tex()
     setlocal textwidth=90
     "let b:AutoPairs = {"``":"''", "`":"'", '{':'}', '(':')', '[':']', }
     let b:AutoPairs = AutoPairsDefine({'\$':'\$', "`":"'", "``":"''"}, ['"', "'"])
+    let g:AutoPairsMapCR = 0
     inoremap <buffer> <m-i> \item <c-o>==<c-o>A
     inoremap <buffer> <c-cr> <cr>\item <c-o>==<c-o>A
     map <buffer> <localleader>la <esc>:up<cr><localleader>ll
+    iunmap <buffer> <cr>
 endfunction
 autocmd BufRead *.tex silent! call MDR_tex()
 "}}}
