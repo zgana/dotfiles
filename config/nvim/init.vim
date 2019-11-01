@@ -19,6 +19,9 @@ if dein#load_state($HOME . '/.cache/dein')
     " Required:
     call dein#add($HOME . '/.cache/dein/repos/github.com/Shougo/dein.vim')
 
+    " firefox
+    "call dein#add('glacambre/firenvim')
+
     " Airline
     call dein#add('vim-airline/vim-airline')
     call dein#add('vim-airline/vim-airline-themes')
