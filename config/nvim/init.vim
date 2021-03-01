@@ -7,9 +7,9 @@ if &compatible
 endif
 
 " Required:
+set runtimepath+=$HOME/.fzf
 set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
 set runtimepath+=$HOME/.config/nvim
-set runtimepath+=$HOME/.fzf
 
 " Required:
 if dein#load_state($HOME . '/.cache/dein')
@@ -20,7 +20,7 @@ if dein#load_state($HOME . '/.cache/dein')
     call dein#add($HOME . '/.cache/dein/repos/github.com/Shougo/dein.vim')
 
     " firefox
-    "call dein#add('glacambre/firenvim')
+    call dein#add('glacambre/firenvim', { 'hook_post_update': { _ -> firenvim#install(0) } })
 
     " Airline
     call dein#add('vim-airline/vim-airline')
@@ -52,6 +52,7 @@ if dein#load_state($HOME . '/.cache/dein')
     "call dein#add('python-rope/ropevim')
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-repeat')
     call dein#add('terryma/vim-multiple-cursors')
     call dein#add('vim-scripts/ReplaceWithRegister')
     call dein#add('michaeljsmith/vim-indent-object')
@@ -64,10 +65,22 @@ if dein#load_state($HOME . '/.cache/dein')
     call dein#add('jnurmine/Zenburn')
     call dein#add('flazz/vim-colorschemes')
     call dein#add('altercation/vim-colors-solarized')
+    call dein#add('jacoborus/tender.vim')
+    call dein#add('sainnhe/forest-night')
+    call dein#add('franbach/miramare')
 
-    " Filetypes
+    " SQL
+    call dein#add('cosminadrianpopescu/vim-sql-workbench')
+
+    " TeX
     call dein#add('lervag/vimtex')
-    "call dein#add('JuliaEditorSupport/julia-vim')
+
+    " Julia
+    call dein#add('JuliaEditorSupport/julia-vim')
+
+    " Javascript
+    call dein#add('yuezk/vim-js')
+    call dein#add('maxmellon/vim-jsx-pretty')
 
     " Tags
     "call dein#add('ludovicchabant/vim-gutentags')
@@ -84,6 +97,7 @@ endif
 " Required:
 filetype plugin indent on
 syntax enable
+syntax sync minlines=200
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -116,7 +130,7 @@ set wildmenu
 set backspace=eol,indent,start
 set browsedir=current
 set bufhidden=hide
-set cinoptions=(0,g0,t0,Ws,*200,:0,)200
+set cinoptions=(0,g0,t0,W1s,*200,:0,)200
 set completeopt=menuone
 set formatoptions+=tcqnjr
 set grepprg=grep\ -nH\ $*
@@ -164,6 +178,12 @@ command! -bang -nargs=* Ag
             \                 <bang>0 ? fzf#vim#with_preview('up:40%')
             \                         : fzf#vim#with_preview('right:50%:hidden', '?'),
             \                 <bang>0)
+
+function! s:FilterQuickfixList(bang, pattern)
+  let cmp = a:bang ? '!~#' : '=~#'
+  call setqflist(filter(getqflist(), "bufname(v:val['bufnr']) " . cmp . " a:pattern"))
+endfunction
+command! -bang -nargs=1 -complete=file QFilter call s:FilterQuickfixList(<bang>0, <q-args>)
 
 " }}}
 
@@ -269,6 +289,10 @@ noremap <leader>wq <c-w><c-q>
 noremap <leader>wd <c-w><c-q>
 noremap <leader>wo <c-w><c-o>
 noremap <leader>wx :copen<cr>
+" resizing
+noremap <leader>w= <c-w>=
+noremap <leader>w- <c-w>-
+noremap <leader>w+ <c-w>+
 " }}}
 " Tabs {{{
 noremap <leader>t1 1gt
@@ -292,6 +316,11 @@ noremap <leader>tq :tabclose<cr>
 noremap <leader>pt :NERDTreeToggle<cr>
 noremap <leader>pp :NERDTreeVCS<cr>
 noremap <leader>pf :NERDTreeFind<cr>
+" }}}
+" Quickfix {{{
+noremap <leader>cn :cn<cr>
+noremap <leader>cp :cp<cr>
+noremap <leader>cw :cw<cr>
 " }}}
 " Minimap {{{
 " let g:minimap_show='<leader>Mo'
@@ -348,6 +377,7 @@ noremap <leader>on :set number! relativenumber!<cr>
 noremap <leader>oN :set number!<cr>
 noremap <leader>op :call AutoPairsToggle()<cr>
 noremap <leader>os :set spell!<cr>
+noremap <leader>oc :set cursorcolumn!<cr>
 " TODO: figure out how to actually toggle
 noremap <leader>ow :call g:Wordwrap_begin()<cr>
 noremap <leader>oW :call g:Wordwrap_end()<cr>
@@ -409,10 +439,21 @@ let g:AutoPairsShortcutJump = "<c-j>"
 
 " Section: Snippets {{{
 let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsExpandTrigger="<m-=>"
-let g:UltiSnipsJumpForwardTrigger="<m-.>"
-let g:UltiSnipsJumpBackwardTrigger="<m-,>"
+let g:UltiSnipsExpandTrigger="<M-=>"
+let g:UltiSnipsJumpForwardTrigger="<M-.>"
+let g:UltiSnipsJumpBackwardTrigger="<M-,>"
 
+" }}}
+
+" Section: FireNVim {{{
+let g:firenvim_config = { 
+    \ 'localSettings': {
+        \ '.*': {
+            \ 'selector': 'textarea',
+            \ 'takeover': 'never',
+        \ },
+    \ }
+\ }
 " }}}
 
 " Section: Autocmd {{{
@@ -458,7 +499,10 @@ function! MDR_py()
     noremap <buffer> <localleader>vd :call jedi#show_documentation()<cr>
     noremap <buffer> <localleader>r  :call jedi#rename()<cr>
     noremap <buffer> <localleader>vu :call jedi#usages()<cr>
-    setlocal tw=90
+    set makeprg=pylint\ --reports=n\ --msg-template=\"{path}:{line}:\ {msg_id}\ {symbol},\ {obj}\ {msg}\"\ %:p
+    set errorformat=%f:%l:\ %m
+    nnoremap <buffer> <leader>ml :make<cr> :copen<cr>
+    setlocal tw=94
 endfunction
 autocmd BufRead *.py silent! call MDR_py()
 " }}}
@@ -482,14 +526,36 @@ autocmd BufRead *.cpp,*.cxx,*.cc,*.C silent! call MDR_cpp()
 " text {{{
 function! MDR_text()
     setlocal autoindent
-    setlocal spell
+    " setlocal spell
     setlocal spelllang=en
     setlocal comments+=b:>
     let b:commentary_format = "> "
 endfunction
 autocmd BufRead *.txt silent! call MDR_text()
 " }}}
-
+" restructured text {{{
+function! MDR_rst()
+    setlocal foldmethod=manual
+endfunction
+autocmd BufRead *.rst silent! call MDR_text()
+" }}}
+" HTML {{{
+function! MDR_html()
+    setlocal shiftwidth=2
+    setlocal textwidth=100
+endfunction
+autocmd BufRead *.html silent! call MDR_html()
+"}}}
+" Javascript {{{
+function! MDR_javascript()
+    setlocal shiftwidth=2
+    setlocal textwidth=90
+    setlocal cinoptions=
+    setlocal foldmethod=syntax
+    "setlocal cinoptions=(g0,t0,W1s,*200,:0,)200
+endfunction
+" }}}
+autocmd BufRead *.js silent! call MDR_javascript()
 " }}}
 
 runtime local/init.vim

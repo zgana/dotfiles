@@ -52,7 +52,7 @@ DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages zsh-syntax-highlighting)
+plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages )# zsh-syntax-highlighting)
 
 # User configuration
 
@@ -183,6 +183,14 @@ function tm() {
 
 # virtualenv
 function ve() {
+    if test "$1" = "ls"; then
+        ls $HOME/ve | cat
+        return
+    fi
+    if test "$1" = "create"; then
+        virtualenv $HOME/ve/$2
+        return
+    fi
     source $HOME/ve/$1/bin/activate
 }
 export PIPENV_VENV_IN_PROJECT=1
@@ -211,11 +219,25 @@ function crop_pngs() {
     done
 }
 
-# neural style (no longer present on any machines i'm using?)
-if [ -d $HOME/src/neural-style-deps ]
-then
-    . /home/mike/src/neural-style-deps/torch/install/bin/torch-activate
-fi
+# AWS
+alias kcgc='kubectl config get-contexts'
+alias kcuc='kubectl config use-context'
+
+
+alias kubectl-evicted-details="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\"))'"
+alias kubectl-evicted-list="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"\(.metadata.name) \(.status.message)\" ' | sed 's/\"//g'"
+alias kubectl-evicted-list-uniq="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"\(.metadata.namespace)\" ' | sed 's/\"//g' | sort | uniq"
+alias kubectl-evicted-count='kubectl-list-evicted | wc -l'
+alias kubectl-evicted-DELETE="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"kubectl delete pod \(.metadata.name) -n \(.metadata.namespace)\"' | xargs -n 1 bash -c"
+
+alias kcce=kubectl-evicted-count
+alias kcleu=kubectl-evicted-list-uniq
+alias kcle=kubectl-evicted-list
+alias kcde=kubectl-evicted-details
+alias kcDE=kubectl-evicted-DELETE
+
+# GIT
+alias gbc='git branch | cat'
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
