@@ -20,7 +20,7 @@ if dein#load_state($HOME . '/.cache/dein')
     call dein#add($HOME . '/.cache/dein/repos/github.com/Shougo/dein.vim')
 
     " firefox
-    call dein#add('glacambre/firenvim', { 'hook_post_update': { _ -> firenvim#install(0) } })
+    "call dein#add('glacambre/firenvim', { 'hook_post_update': { _ -> firenvim#install(0) } })
 
     " Airline
     call dein#add('vim-airline/vim-airline')
@@ -73,13 +73,13 @@ if dein#load_state($HOME . '/.cache/dein')
     call dein#add('franbach/miramare')
 
     " SQL
-    call dein#add('cosminadrianpopescu/vim-sql-workbench')
+    "call dein#add('cosminadrianpopescu/vim-sql-workbench')
 
     " TeX
     call dein#add('lervag/vimtex')
 
     " Julia
-    call dein#add('JuliaEditorSupport/julia-vim')
+    "call dein#add('JuliaEditorSupport/julia-vim')
 
     " Javascript
     call dein#add('yuezk/vim-js')
@@ -298,6 +298,8 @@ noremap <leader>wx :copen<cr>
 noremap <leader>w= <c-w>=
 noremap <leader>w- <c-w>-
 noremap <leader>w+ <c-w>+
+noremap <leader>w< <c-w><
+noremap <leader>w> <c-w>>
 " }}}
 " Tabs {{{
 noremap <leader>t1 1gt
