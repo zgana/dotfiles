@@ -44,9 +44,12 @@ if dein#load_state($HOME . '/.cache/dein')
 
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
+
+    " Python
     call dein#add('zchee/deoplete-jedi')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('davidhalter/jedi')
+    call dein#add('raimon49/requirements.txt.vim', {'lazy': 1, 'on_ft': 'requirements'})
 
     " Refactoring
     "call dein#add('python-rope/ropevim')
@@ -147,6 +150,8 @@ set wildignore=*.o
 set wildmode=list:longest
 
 silent call system ('mkdir -p $HOME/.vim/undo')
+
+let g:netrw_browsex_viewer = '-'
 
 " }}}
 
@@ -311,6 +316,7 @@ noremap <leader>te :tabedit<cr>:Files<cr>
 noremap <leader>tE :tabedit<cr>:Files
 noremap <leader>tb :tabedit<cr>:History<cr>
 noremap <leader>tq :tabclose<cr>
+noremap <leader>tf <c-w>gf
 " }}}
 " Project {{{
 noremap <leader>pt :NERDTreeToggle<cr>
@@ -373,6 +379,7 @@ let g:multi_cursor_skip_key            = '<m-^>'
 let g:multi_cursor_quit_key            = '<esc>'
 " }}}
 " Toggles {{{
+noremap <leader>oh :set hlsearch!<cr>
 noremap <leader>on :set number! relativenumber!<cr>
 noremap <leader>oN :set number!<cr>
 noremap <leader>op :call AutoPairsToggle()<cr>
@@ -480,6 +487,8 @@ endfunction
 autocmd BufRead *.tex silent! call MDR_tex()
 "}}}
 " Python {{{
+let python_highlight_all = 1
+let g:python_highlight_all = 1
 function! MDR_py()
     let g:jedi#completions_command = "<c-n>"
     let g:jedi#goto_command = "<leader>mgg"
