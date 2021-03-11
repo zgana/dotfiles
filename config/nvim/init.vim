@@ -514,6 +514,7 @@ function! MDR_py()
     setlocal tw=94
 endfunction
 autocmd BufRead *.py silent! call MDR_py()
+autocmd FileType python let b:AutoPairs = AutoPairsDefine({ "f'":"'", "r'":"'",  "b'":"'" })
 " }}}
 " Rust {{{
 function! MDR_rust()
