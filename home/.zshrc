@@ -52,7 +52,7 @@ DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages )# zsh-syntax-highlighting)
+plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages)
 
 # User configuration
 
@@ -61,8 +61,8 @@ plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol 
 #export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
+source $HOME/.dotfiles/external/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -101,10 +101,14 @@ if type nvim > /dev/null 2>&1; then
   alias gvim='nvim-gtk'
   alias vv='nvim-gtk'
   alias dvim='nvim -R -'
+else
+  alias dvim='vim -R -'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
-alias qvim='echo you probably want vv'
-#alias qvim="nvim-qt --geometry 800x730-0+0"; echo but 
+
+# paging
+export PAGER='less -R'
+alias less='less -R'
 
 # history
 HISTFILE=~/.zhistfile
@@ -119,22 +123,22 @@ bindkey '^r' history-incremental-search-backward
 
 
 # highlighting
-if [ -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]
+if [ -d $HOME/.dotfiles/external/zsh-syntax-highlighting ]
 then
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-    ZSH_HIGHLIGHT_STYLES[alias]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[builtin]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[function]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[precommand]=none
-    ZSH_HIGHLIGHT_STYLES[hashed-command]=none
-    ZSH_HIGHLIGHT_STYLES[path]=none
-    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=cyan,bold
-    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=cyan,bold
-    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+  ZSH_HIGHLIGHT_STYLES[alias]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[builtin]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[function]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[precommand]=none
+  ZSH_HIGHLIGHT_STYLES[hashed-command]=none
+  ZSH_HIGHLIGHT_STYLES[path]=none
+  ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=cyan,bold
+  ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=cyan
+  ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=cyan,bold
+  ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 fi
 
 
@@ -146,54 +150,57 @@ jf() { jbo filter "$@" | JBO_ESCAPES=always def | less -R; }
 alias xclipc='xclip -selection clipboard'
 alias sm='make html'
 
-# private config
-source $HOME/.zshrc.local
 
 
 # ls
 function lt() {
-    if test "x$1" = "x"; then
-        ls | tail
-    else
-        ls | tail -n$1
-    fi
+  if test "x$1" = "x"; then
+    ls | tail
+  else
+    ls | tail -n$1
+  fi
 }
 
 # tmux
 function tm() {
-    if test "$1" = "ls"; then
-        tmux ls
-        return
-    fi
-    if test "x$1" = "x"; then
-        tmux -2 new-session
-        return
-    fi
-    if test `tmux ls |grep $1 |wc -l` -ge 1; then
-        tmux a -dt $1
-        return
-    fi
-    conf_file=$HOME/tmux/$1.conf
-    if test -f $conf_file; then
-        tmux -2 new-session -s $1 "tmux source-file \"$conf_file\" "
-    else
-        tmux -2 new-session -s $1
-    fi
+  if test "$1" = "ls"; then
+    tmux ls
+    return
+  fi
+  if test "x$1" = "x"; then
+    tmux -2 new-session
+    return
+  fi
+  if test `tmux ls |grep $1 |wc -l` -ge 1; then
+    tmux a -dt $1
+    return
+  fi
+  conf_file=$HOME/tmux/$1.conf
+  if test -f $conf_file; then
+    tmux -2 new-session -s $1 "tmux source-file \"$conf_file\" "
+  else
+    tmux -2 new-session -s $1
+  fi
 }
 
 # virtualenv
 function ve() {
-    if test "$1" = "ls"; then
-        ls $HOME/ve | cat
-        return
-    fi
-    if test "$1" = "create"; then
-        virtualenv $HOME/ve/$2
-        return
-    fi
-    source $HOME/ve/$1/bin/activate
+  if test "$1" = "ls"; then
+    ls $HOME/ve | cat
+    return
+  fi
+  if test "$1" = "create"; then
+    virtualenv $HOME/ve/$2
+    return
+  fi
+  source $HOME/ve/$1/bin/activate
 }
 export PIPENV_VENV_IN_PROJECT=1
+
+# docker
+function docker-df() {
+  (docker system df -v | head -n3 ; docker system df -v | egrep $1) | gawk -F' \\s+' '{printf "%120-s %15s %15s %15s\n",$1, $5, $6, $7}' | egrep --color=never "(REPOSITORY)|($1)"
+}
 
 # custom completion
 fpath=(~/.zsh/completion $fpath)
@@ -203,41 +210,78 @@ zstyle ':completion:*' menu select=2
 
 # bring my ssh agent everywhere! (see also, .tmux.conf)
 function _ssh_auth_save() {
-    sock_file="$HOME/.ssh/ssh-auth-sock.`hostname`"
-    if test "$sock_file" != "$SSH_AUTH_SOCK"; then
-        ln -sf "$SSH_AUTH_SOCK" "$sock_file"
-    fi
-    export SSH_AUTH_SOCK="$sock_file"
+  sock_file="$HOME/.ssh/ssh-auth-sock.`hostname`"
+  if test "$sock_file" != "$SSH_AUTH_SOCK"; then
+    ln -sf "$SSH_AUTH_SOCK" "$sock_file"
+  fi
+  export SSH_AUTH_SOCK="$sock_file"
 }
 _ssh_auth_save
 
 # make "crop" dir with cropped PNGs
 function crop_pngs() {
-    mkdir -p crop
-    for f in *png; do
-        convert $f -trim -bordercolor white -border 10x10 crop/$f
-    done
+  mkdir -p crop
+  for f in *png; do
+    convert $f -trim -bordercolor white -border 10x10 crop/$f
+  done
 }
 
 # AWS
+
+alias k='kubectl'
+
+# Checking and setting the kubectl context
 alias kcgc='kubectl config get-contexts'
+alias kcgcc="kubectl config get-contexts | grep '^*' | awk '{print \$2}'"
 alias kcuc='kubectl config use-context'
 
-
-alias kubectl-evicted-details="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\"))'"
+# Dealing with evicted pods
+alias kubectl-evicted-details="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\"))' | jq -C"
+alias kubectl-evicted-reason="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\"))' | jq -s '[.[] | {namespace: .metadata.namespace, message: .status.message, time: .status.startTime}] | sort_by(.time)' | jq -C"
 alias kubectl-evicted-list="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"\(.metadata.name) \(.status.message)\" ' | sed 's/\"//g'"
 alias kubectl-evicted-list-uniq="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"\(.metadata.namespace)\" ' | sed 's/\"//g' | sort | uniq"
-alias kubectl-evicted-count='kubectl-list-evicted | wc -l'
+alias kubectl-evicted-count='kubectl-evicted-list | wc -l'
 alias kubectl-evicted-DELETE="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"kubectl delete pod \(.metadata.name) -n \(.metadata.namespace)\"' | xargs -n 1 bash -c"
 
+# short aliases for evicted pods
 alias kcce=kubectl-evicted-count
 alias kcleu=kubectl-evicted-list-uniq
 alias kcle=kubectl-evicted-list
+alias kcre=kubectl-evicted-reason
 alias kcde=kubectl-evicted-details
 alias kcDE=kubectl-evicted-DELETE
+
+# List node external DNS
+function cluster-nodes() {
+  kubectl describe nodes | grep ExternalDNS | sed 's/.*ec2/ec2/'
+}
+
+# List commands to ssh into nodes
+function cluster-ssh() {
+  kubectl describe nodes | grep ExternalDNS | sed 's/.*ec2/ec2/;s/^/ssh ec2-user@/'
+}
+
+# Check memory usage
+# (you must be listed in the nodes' authorized_keys)
+function cluster-mem() {
+  for node in $(cluster-nodes)
+  do
+    total=$(ssh ec2-user@$node 'head -n1 /proc/meminfo | awk "{print \$2}"')
+    # TODO: mem usage is notoriously difficult to pin down
+    # using /proc/meminfo line 2 might be overly pessimistic
+    free=$(ssh ec2-user@$node 'head -n2 /proc/meminfo | tail -n1 | awk "{print \$2}"')
+    python -c "print('{:7.2%} free'.format($free/$total))"
+  done
+}
+
 
 # GIT
 alias gbc='git branch | cat'
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+# private config
+source $HOME/.zshrc.local
+
+# vim: sw=2 sts=2
