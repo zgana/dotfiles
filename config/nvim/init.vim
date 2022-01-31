@@ -477,7 +477,7 @@ function! MDR_tex()
     setlocal shiftwidth=2
     setlocal textwidth=90
     "let b:AutoPairs = {"``":"''", "`":"'", '{':'}', '(':')', '[':']', }
-    let b:AutoPairs = AutoPairsDefine({'\$':'\$', "`":"'", "``":"''"}, ['"', "'"])
+    " let b:AutoPairs = AutoPairsDefine({'\$':'\$', "`":"'", "``":"''"}, ['"', "'"])
     let g:AutoPairsMapCR = 0
     inoremap <buffer> <m-i> \item <c-o>==<c-o>A
     inoremap <buffer> <c-cr> <cr>\item <c-o>==<c-o>A
@@ -485,6 +485,7 @@ function! MDR_tex()
     iunmap <buffer> <cr>
 endfunction
 autocmd BufRead *.tex silent! call MDR_tex()
+autocmd FileType tex let b:AutoPairs = AutoPairsDefine({'\$':'\$', "`":"'", "``":"''"}, ['"', "'"])
 "}}}
 " Python {{{
 let python_highlight_all = 1
@@ -564,8 +565,21 @@ function! MDR_javascript()
     setlocal foldmethod=syntax
     "setlocal cinoptions=(g0,t0,W1s,*200,:0,)200
 endfunction
-" }}}
 autocmd BufRead *.js silent! call MDR_javascript()
+" }}}
+" YaML {{{
+function! MDR_YaML()
+    setlocal shiftwidth=2
+    setlocal softtabstop=2
+    setlocal foldmethod=syntax
+endfunction
+autocmd BufRead *.yml,*.yaml,*pipeline*template silent! call MDR_YaML()
+" }}}
+" ini files {{{
+function! MDR_ini()
+    set filetype=dosini
+endfunction
+autocmd BufRead .aws/credentials silent! call MDR_ini()
 " }}}
 
 runtime local/init.vim
