@@ -2,14 +2,41 @@
 " Section: Load Dein and plugins {{{
 
 "dein Scripts-----------------------------
-if &compatible
-    set nocompatible               " Be iMproved
-endif
 
 " Required:
-set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
-set runtimepath+=$HOME/.config/nvim
-set runtimepath+=$HOME/.fzf
+" set runtimepath+=$HOME/.cache/dein/repos/github.com/Shougo/dein.vim
+" set runtimepath+=$HOME/.config/nvim
+
+let $CACHE = expand('~/.cache')
+if !isdirectory($CACHE)
+  call mkdir($CACHE, 'p')
+endif
+if &runtimepath !~# '/dein.vim'
+  let s:dein_dir = fnamemodify('dein.vim', ':p')
+  if !isdirectory(s:dein_dir)
+    let s:dein_dir = $CACHE . '/dein/repos/github.com/Shougo/dein.vim'
+    if !isdirectory(s:dein_dir)
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dein_dir
+    endif
+  endif
+  execute 'set runtimepath^=' . substitute(
+        \ fnamemodify(s:dein_dir, ':p') , '[/\\]$', '', '')
+endif
+
+" Ward off unexpected things that your distro might have made, as
+" well as sanely reset options when re-sourcing .vimrc
+set nocompatible
+
+" Set dein base path (required)
+let s:dein_base = '~/.cache/dein/'
+
+" Set dein source path (required)
+let s:dein_src = '~/.cache/dein/repos/github.com/Shougo/dein.vim'
+
+" Set dein runtime path (required)
+execute 'set runtimepath+=' . s:dein_src
+
+" set runtimepath+=$HOME/.fzf
 
 " Required:
 if dein#load_state($HOME . '/.cache/dein')
@@ -31,12 +58,15 @@ if dein#load_state($HOME . '/.cache/dein')
     " minimap (super ridiculous, do not use)
     "call dein#add('severin-lemaignan/vim-minimap')
 
+    " git
+    call dein#add('tpope/vim-fugitive')
+
     " fzf
-    call dein#add('junegunn/fzf')
-    call dein#add('junegunn/fzf.vim')
+    " call dein#add('junegunn/fzf')
+    " call dein#add('junegunn/fzf.vim')
 
     " version control
-    call dein#add('tpope/vim-fugitive')
+    " call dein#add('tpope/vim-fugitive')
 
     " Completion
     call dein#add('SirVer/ultisnips')
@@ -44,14 +74,27 @@ if dein#load_state($HOME . '/.cache/dein')
 
     call dein#add('Shougo/deoplete.nvim')
     call dein#add('Shougo/neco-vim')
+
+    " Folding
+    call dein#add('Konfekt/FastFold')
+
+    " Python
     call dein#add('zchee/deoplete-jedi')
     call dein#add('davidhalter/jedi-vim')
     call dein#add('davidhalter/jedi')
+    call dein#add('raimon49/requirements.txt.vim', {'lazy': 1, 'on_ft': 'requirements'})
+    call dein#add('tmhedberg/SimpylFold')
+    call dein#add('Vimjas/vim-python-pep8-indent')
+    call dein#add('numirias/semshi')
+
+    call dein#add('vim-pandoc/vim-pandoc-syntax')
+    call dein#add('quarto-dev/quarto-vim')
 
     " Refactoring
     "call dein#add('python-rope/ropevim')
     call dein#add('tpope/vim-commentary')
     call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-repeat')
     call dein#add('terryma/vim-multiple-cursors')
     call dein#add('vim-scripts/ReplaceWithRegister')
     call dein#add('michaeljsmith/vim-indent-object')
@@ -64,10 +107,20 @@ if dein#load_state($HOME . '/.cache/dein')
     call dein#add('jnurmine/Zenburn')
     call dein#add('flazz/vim-colorschemes')
     call dein#add('altercation/vim-colors-solarized')
+    call dein#add('jacoborus/tender.vim')
+    " call dein#add('sainnhe/forest-night')
+    call dein#add('sainnhe/everforest')
+    call dein#add('franbach/miramare')
 
-    " Filetypes
+    " TeX
     call dein#add('lervag/vimtex')
-    "call dein#add('JuliaEditorSupport/julia-vim')
+
+    " Julia
+    call dein#add('JuliaEditorSupport/julia-vim')
+
+    " Javascript
+    call dein#add('yuezk/vim-js')
+    call dein#add('maxmellon/vim-jsx-pretty')
 
     " Tags
     "call dein#add('ludovicchabant/vim-gutentags')
@@ -89,6 +142,8 @@ syntax enable
 if dein#check_install()
     call dein#install()
 endif
+
+source /usr/local/opt/fzf/plugin/fzf.vim
 
 "End dein Scripts-------------------------
 " }}}
@@ -439,6 +494,8 @@ endfunction
 autocmd BufRead *.tex silent! call MDR_tex()
 "}}}
 " Python {{{
+let g:python_highlight_all = 1
+let g:SimpylFold_fold_import = 0
 function! MDR_py()
     let g:jedi#completions_command = "<c-n>"
     let g:jedi#goto_command = "<leader>mgg"

@@ -1,3 +1,6 @@
+# tolerate insecure brew
+ZSH_DISABLE_COMPFIX=true
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -52,7 +55,7 @@ DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages zsh-syntax-highlighting)
+plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages poetry zsh-syntax-highlighting)
 
 # User configuration
 
@@ -99,7 +102,7 @@ export SVN_EDITOR="nvim"
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
   alias gvim='nvim-gtk'
-  alias vv='nvim-gtk'
+  alias vv='vimr'
   alias dvim='nvim -R -'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
@@ -211,11 +214,11 @@ function crop_pngs() {
     done
 }
 
-# neural style (no longer present on any machines i'm using?)
-if [ -d $HOME/src/neural-style-deps ]
-then
-    . /home/mike/src/neural-style-deps/torch/install/bin/torch-activate
-fi
+# Python libs
+export DARTS_CONFIGURE_MATPLOTLIB=0
+
+# Git
+alias gbc='git branch | cat'
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
