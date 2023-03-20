@@ -143,7 +143,7 @@ if dein#check_install()
     call dein#install()
 endif
 
-source /usr/local/opt/fzf/plugin/fzf.vim
+source /opt/homebrew/opt/fzf/plugin/fzf.vim
 
 "End dein Scripts-------------------------
 " }}}
@@ -509,6 +509,7 @@ function! MDR_py()
     noremap <buffer> <leader>mvd :call jedi#show_documentation()<cr>
     noremap <buffer> <leader>mr  :call jedi#rename()<cr>
     noremap <buffer> <leader>mvu :call jedi#usages()<cr>
+    noremap <buffer> <silent> <leader>mb :!black -q %<cr><cr>
     noremap <buffer> <localleader>vm :Pyimport
     noremap <buffer> <localleader>gg :call jedi#goto()<cr>
     noremap <buffer> <localleader>ga :call jedi#goto_assignments()<cr>
