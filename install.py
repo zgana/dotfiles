@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from __future__ import print_function
 
 import datetime
 from glob import glob
@@ -9,21 +8,29 @@ import re
 import sys
 
 
-install_dirs = {
-        'config/nvim': '.config/nvim',
-        'home': '',
-        }
+base_install_dirs = {
+    # vim
+    'config/nvim': '.config/nvim',
+    # home
+    'home': '',
+    # python
+    'ipython/profile_default': '.ipython/profile_default',
+    'ipython/profile_default---startup': '.ipython/profile_default/startup',
+    'matplotlib': '.matplotlib',
+}
 
 home = os.getenv('HOME')
 this_dir = os.path.abspath(os.path.dirname(__file__))
 install_dirs = {
-        '{}/{}'.format(this_dir, k): '{}/{}'.format(home, v)
-        for (k,v) in install_dirs.items()}
+    f'{this_dir}/{k}': f'{home}/{v}'
+    for (k,v) in base_install_dirs.items()}
+
 
 def backup_name(path):
     timestamp = str(datetime.datetime.now())
     timestamp = re.sub(' ', '_', timestamp)
     return '{}.dotfiles_backup_{}'.format(path, timestamp)
+
 
 def create_link(in_path, real_path, dry=False):
     print(in_path)
@@ -44,6 +51,7 @@ def create_link(in_path, real_path, dry=False):
         os.symlink(in_path, real_path)
     print()
 
+
 def ensure_dir(dirname):
     """Make sure ``dirname`` exists and is a directory."""
     if not os.path.isdir(dirname):
@@ -53,6 +61,7 @@ def ensure_dir(dirname):
             if e.errno != os.errno.EEXIST:
                 raise
     return dirname
+
 
 def handle_dir(src, dest, dry=False):
     in_paths = sorted(glob('{}/*'.format(src)) + glob('{}/.*'.format(src)))
@@ -66,6 +75,12 @@ def handle_dir(src, dest, dry=False):
     for (in_path, real_path) in zip(in_paths, real_paths):
         create_link(in_path, real_path, dry=dry)
 
-# loop over install dirs
-for (src, dest) in install_dirs.items():
-    handle_dir(src, dest, dry=False)
+
+def main():
+    # loop over install dirs
+    for (src, dest) in install_dirs.items():
+        handle_dir(src, dest, dry=False)
+
+
+if __name__ == '__main__':
+    main()
