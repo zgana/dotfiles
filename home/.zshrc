@@ -111,8 +111,8 @@ alias qvim='echo you probably want vv'
 
 # history
 HISTFILE=~/.zhistfile
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1000000
+SAVEHIST=1000000
 setopt appendhistory autocd notify extendedglob
 bindkey "^[OA" history-beginning-search-backward
 bindkey "^[OB" history-beginning-search-forward
@@ -142,8 +142,6 @@ fi
 
 
 # more aliases
-alias gls='ls --group-directories-first --color=tty'
-#alias ipython='ipython --pylab=gtk'
 alias jd='jbo define'
 jf() { jbo filter "$@" | JBO_ESCAPES=always def | less -R; }
 alias xclipc='xclip -selection clipboard'
@@ -151,6 +149,16 @@ alias sm='make html'
 
 # private config
 source $HOME/.zshrc.local
+
+
+# # brew
+
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+fi
 
 
 # ls
