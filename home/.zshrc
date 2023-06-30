@@ -224,6 +224,7 @@ function crop_pngs() {
 
 # Python libs
 export DARTS_CONFIGURE_MATPLOTLIB=0
+source $HOME/.hatch-complete.zsh
 
 # Git
 alias gbc='git branch | cat'

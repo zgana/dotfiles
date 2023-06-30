@@ -86,6 +86,7 @@ if dein#load_state($HOME . '/.cache/dein')
     call dein#add('tmhedberg/SimpylFold')
     call dein#add('Vimjas/vim-python-pep8-indent')
     call dein#add('numirias/semshi')
+    call dein#add('nvie/vim-flake8')
 
     call dein#add('vim-pandoc/vim-pandoc-syntax')
     call dein#add('quarto-dev/quarto-vim')
@@ -111,6 +112,7 @@ if dein#load_state($HOME . '/.cache/dein')
     " call dein#add('sainnhe/forest-night')
     call dein#add('sainnhe/everforest')
     call dein#add('franbach/miramare')
+    call dein#add('nordtheme/vim')
 
     " TeX
     call dein#add('lervag/vimtex')
@@ -179,7 +181,7 @@ set nrformats=
 set shiftwidth=4
 set softtabstop=4
 set tabstop=8
-set textwidth=79
+set textwidth=88
 set undodir="${HOME}.vim/undo"
 set undolevels=1000
 set undoreload=10000
@@ -316,6 +318,7 @@ noremap <leader>w7 7<c-w><c-w>
 noremap <leader>w8 8<c-w><c-w>
 noremap <leader>w9 9<c-w><c-w>
 noremap <leader>ww <c-w><c-w>
+noremap <leader>w= <c-w>=
 noremap <leader>wh <c-w>h
 noremap <leader>wj <c-w>j
 noremap <leader>wk <c-w>k
@@ -476,6 +479,75 @@ let g:UltiSnipsJumpBackwardTrigger="<m-,>"
 autocmd BufEnter * silent! lcd %:p:h
 autocmd BufEnter * silent! let b:wordwrap_is_on = 0
 
+" text {{{
+function! MDR_text()
+    if &filetype = "help"
+        return
+    endif
+    setlocal autoindent
+    setlocal spell
+    setlocal spelllang=en
+    setlocal comments+=b:>
+    let b:commentary_format = "> "
+endfunction
+autocmd BufEnter *.txt silent! call MDR_text()
+" }}}
+
+" Python {{{
+
+let g:python_highlight_all = 1
+let g:SimpylFold_fold_import = 0
+
+let g:no_flake8_maps = 1
+function! MDR_py()
+    let g:jedi#completions_command = "<c-n>"
+    let g:jedi#goto_command = "<leader>mgg"
+    let g:jedi#goto_assignments_command = "<leader>mga"
+    let g:jedi#documentation_command = "<leader>mvd"
+    let g:jedi#rename_command = "<leader>mr"
+    let g:jedi#usages_command = "<leader>mvu"
+
+    noremap <buffer> <leader>mvm :Pyimport 
+    noremap <buffer> <leader>mgg :call jedi#goto()<cr>
+    noremap <buffer> <leader>mga :call jedi#goto_assignments()<cr>
+    noremap <buffer> <leader>mvd :call jedi#show_documentation()<cr>
+    noremap <buffer> <leader>mr  :call jedi#rename()<cr>
+    noremap <buffer> <leader>mvu :call jedi#usages()<cr>
+
+    noremap <buffer> <silent><leader>mos :Semshi toggle<cr>
+
+    noremap <buffer> <silent> <leader>mb :!black -q %<cr><cr>
+    noremap <buffer> <silent> <leader>mi :!isort %<cr><cr>
+    noremap <buffer> <leader>ml :!ruff %<cr>
+
+    " TODO: handle f-strings and r-strings
+
+    " noremap <buffer> <leader>ml  :call flake8#Flake8()<cr>
+    " nnoremap <buffer> <leader>me :call flake8#Flake8ShowError()<cr>
+
+    " noremap <buffer> <localleader>vm :Pyimport
+    " noremap <buffer> <localleader>gg :call jedi#goto()<cr>
+    " noremap <buffer> <localleader>ga :call jedi#goto_assignments()<cr>
+    " noremap <buffer> <localleader>vd :call jedi#show_documentation()<cr>
+    " noremap <buffer> <localleader>r  :call jedi#rename()<cr>
+    " noremap <buffer> <localleader>vu :call jedi#usages()<cr>
+endfunction
+
+function! MDR_py_requirements()
+    setlocal filetype=requirements
+    set nospell
+endfunction
+
+function! MDR_py_conf()
+    setlocal filetype=toml
+endfunction
+
+autocmd BufRead *.py silent! call MDR_py()
+autocmd FileType python let b:AutoPairs = AutoPairsDefine({ "f'":"'", "r'":"'",  "b'":"'" })
+autocmd BufRead requirements*.txt silent! call MDR_py_requirements()
+autocmd BufRead .flake8,.darglint silent! call MDR_py_conf()
+" }}}
+
 " LaTeX {{{
 let g:vimtex_quickfix_open_on_warning = 0
 let g:vimtex_latexmk_continuous = 0
@@ -493,33 +565,7 @@ function! MDR_tex()
 endfunction
 autocmd BufRead *.tex silent! call MDR_tex()
 "}}}
-" Python {{{
-let g:python_highlight_all = 1
-let g:SimpylFold_fold_import = 0
-function! MDR_py()
-    let g:jedi#completions_command = "<c-n>"
-    let g:jedi#goto_command = "<leader>mgg"
-    let g:jedi#goto_assignments_command = "<leader>mga"
-    let g:jedi#documentation_command = "<leader>mvd"
-    let g:jedi#rename_command = "<leader>mr"
-    let g:jedi#usages_command = "<leader>mvu"
-    noremap <buffer> <leader>mvm :Pyimport 
-    noremap <buffer> <leader>mgg :call jedi#goto()<cr>
-    noremap <buffer> <leader>mga :call jedi#goto_assignments()<cr>
-    noremap <buffer> <leader>mvd :call jedi#show_documentation()<cr>
-    noremap <buffer> <leader>mr  :call jedi#rename()<cr>
-    noremap <buffer> <leader>mvu :call jedi#usages()<cr>
-    noremap <buffer> <silent> <leader>mb :!black -q %<cr><cr>
-    noremap <buffer> <localleader>vm :Pyimport
-    noremap <buffer> <localleader>gg :call jedi#goto()<cr>
-    noremap <buffer> <localleader>ga :call jedi#goto_assignments()<cr>
-    noremap <buffer> <localleader>vd :call jedi#show_documentation()<cr>
-    noremap <buffer> <localleader>r  :call jedi#rename()<cr>
-    noremap <buffer> <localleader>vu :call jedi#usages()<cr>
-    setlocal tw=90
-endfunction
-autocmd BufRead *.py silent! call MDR_py()
-" }}}
+
 " Rust {{{
 function! MDR_rust()
     noremap <buffer> <leader>mgg <plug>DeopleteRustGoToDefinitionDefault
@@ -530,22 +576,13 @@ function! MDR_rust()
 endfunction
 autocmd BufRead *.rs silent! call MDR_rust()
 " }}}
+
 " C++ {{{
 function! MDR_cpp()
     setlocal tw=90
     setlocal foldmethod=syntax
 endfunction
 autocmd BufRead *.cpp,*.cxx,*.cc,*.C silent! call MDR_cpp()
-" }}}
-" text {{{
-function! MDR_text()
-    setlocal autoindent
-    setlocal spell
-    setlocal spelllang=en
-    setlocal comments+=b:>
-    let b:commentary_format = "> "
-endfunction
-autocmd BufRead *.txt silent! call MDR_text()
 " }}}
 
 " }}}
