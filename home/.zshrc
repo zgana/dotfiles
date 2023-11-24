@@ -60,9 +60,6 @@ plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol 
 # User configuration
 
 
-# Rust PATH
-#export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -98,16 +95,16 @@ source $ZSH/oh-my-zsh.sh
 bindkey -M viins '^[' vi-cmd-mode
 bindkey -M vicmd '^[' vi-cmd-mode
 export EDITOR="nvim"
-export SVN_EDITOR="nvim"
 if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-  alias gvim='nvim-gtk'
-  alias vv='vimr'
-  alias dvim='nvim -R -'
+    alias vim='nvim'
+    alias dvim='nvim -R -'
+fi
+if type vimr > /dev/null 2>&1; then
+    alias vv='vimr -n'
+elif type nvim-qt > /dev/null 2>&1; then
+    alias vv='nvim-qt'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
-alias qvim='echo you probably want vv'
-#alias qvim="nvim-qt --geometry 800x730-0+0"; echo but 
 
 # history
 HISTFILE=~/.zhistfile
@@ -142,10 +139,7 @@ fi
 
 
 # more aliases
-alias jd='jbo define'
-jf() { jbo filter "$@" | JBO_ESCAPES=always def | less -R; }
 alias xclipc='xclip -selection clipboard'
-alias sm='make html'
 
 # private config
 source $HOME/.zshrc.local
@@ -156,7 +150,6 @@ source $HOME/.zshrc.local
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
   autoload -Uz compinit
 fi
 
@@ -200,6 +193,7 @@ export PIPENV_VENV_IN_PROJECT=1
 
 # custom completion
 fpath=(~/.zsh/completion $fpath)
+fpath+=~/.zfunc
 autoload -U compinit
 compinit
 zstyle ':completion:*' menu select=2
