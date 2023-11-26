@@ -50,6 +50,18 @@ local wk_mappings = {
     ["9"] = { "9<c-w><c-w>", "Enter window #9" },
   },
 
+  -- windows (direct switch)
+  ["1"] = { "1<c-w><c-w>", "Enter window #1" },
+  ["2"] = { "2<c-w><c-w>", "Enter window #2" },
+  ["3"] = { "3<c-w><c-w>", "Enter window #3" },
+  ["4"] = { "4<c-w><c-w>", "Enter window #4" },
+  ["5"] = { "5<c-w><c-w>", "Enter window #5" },
+  ["6"] = { "6<c-w><c-w>", "Enter window #6" },
+  ["7"] = { "7<c-w><c-w>", "Enter window #7" },
+  ["8"] = { "8<c-w><c-w>", "Enter window #8" },
+  ["9"] = { "9<c-w><c-w>", "Enter window #9" },
+
+
   -- tab pages
   t = {
     [","] = { ":tabmove -1<cr>", "Rearrange current tab to the left" },
@@ -98,6 +110,7 @@ local wk_mappings = {
 
   -- UI
   u = {
+    a = { ":AerialToggle<cr>", "Toggle [A]erial" },
     c = { ":Telescope colorscheme sorting_strategy=ascending<cr>", "Colorschemes" },
     d = {
       ":ToggleDiag<cr><c-l>"
@@ -107,18 +120,8 @@ local wk_mappings = {
     },
     i = { ":IBLToggle<cr>", "Toggle indentation guides" },
     s = { ":set spell!<cr>", "Toggle spellcheck" },
+    t = { ":NvimTreeToggle<cr>", "Toggle [T]ree" },
   },
-
-  -- windows (direct switch)
-  ["1"] = { "1<c-w><c-w>", "Enter window #1" },
-  ["2"] = { "2<c-w><c-w>", "Enter window #2" },
-  ["3"] = { "3<c-w><c-w>", "Enter window #3" },
-  ["4"] = { "4<c-w><c-w>", "Enter window #4" },
-  ["5"] = { "5<c-w><c-w>", "Enter window #5" },
-  ["6"] = { "6<c-w><c-w>", "Enter window #6" },
-  ["7"] = { "7<c-w><c-w>", "Enter window #7" },
-  ["8"] = { "8<c-w><c-w>", "Enter window #8" },
-  ["9"] = { "9<c-w><c-w>", "Enter window #9" },
 
   -- section documentation
 

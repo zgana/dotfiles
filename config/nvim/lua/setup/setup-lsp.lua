@@ -88,7 +88,13 @@ local servers = {
   -- https://github.com/mtshiba/pylyzer/issues/22
   -- pylyzer = {},
 
-  pyright = {},
+  pyright = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off"
+      }
+    }
+  },
 
   rust_analyzer = {},
   -- tsserver = {},

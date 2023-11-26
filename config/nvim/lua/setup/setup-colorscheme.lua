@@ -1,5 +1,4 @@
-local chosen = 'everforest'
--- local chosen = 'kanagawa-dragon'
+local chosen = 'kanagawa-dragon'
 
 -- apply any needed configuration
 if chosen == 'everforest' then
