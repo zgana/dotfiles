@@ -17,7 +17,6 @@ vim.o.undofile = true
 vim.o.wildmenu = true
 
 vim.o.backspace = 'eol,indent,start'
-vim.o.browsedir = 'current'
 vim.o.bufhidden = 'hide'
 vim.o.cinoptions = '(0,g0,t0,Ws,*200,:0,)200'
 vim.o.completeopt = "menuone,noinsert,noselect"
