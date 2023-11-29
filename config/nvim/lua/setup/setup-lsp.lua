@@ -45,7 +45,9 @@ local on_attach = function(_, bufnr)
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, '[L]SP Workspace [L]ist Folders')
 
-  nmap('<leader>li', ":LspInfo<cr>", '[L]SP [I]nfo')
+  nmap('<leader>lI', ":LspInfo<cr>", '[L]SP [I]nfo')
+  nmap('<leader>lL', ":LspLog<cr>", '[L]SP [L]og')
+  nmap('<leader>lR', ":LspRestart<cr>", '[L]SP [R]estart')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
