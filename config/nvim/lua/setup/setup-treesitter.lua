@@ -1,3 +1,8 @@
+-- skip treesitter on certain machines with ancient gcc installations                                                                                                                                                 [0/1]
+if string.find(vim.fn.system('hostname'), 'bidder') then
+  return
+end
+
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
