@@ -64,18 +64,13 @@ local plugins = {
 }
 
 local opts = {}
-
-local nvim_qt_path = '/usr/share/nvim-qt/runtime'
-local nvim_qt_pattern = string.gsub(nvim_qt_path, '-', '.')
-if string.find(vim.o.runtimepath, nvim_qt_pattern) then
-  opts["performance"] = {
-    rtp = {
-      paths = {
-        nvim_qt_path
-      }
-    }
+opts["performance"] = {
+  rtp = {
+    -- TODO: can we set this back to true but include specific runtimes?
+    -- For example, nvim-qt sets a runtimepath on startup
+    reset = false,
   }
-end
+}
 
 require('lazy').setup(plugins, opts)
 
