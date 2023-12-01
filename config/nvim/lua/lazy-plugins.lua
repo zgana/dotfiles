@@ -11,6 +11,7 @@ local plugins = {
 
   -- more python
   'tmhedberg/SimpylFold',
+  'Vimjas/vim-python-pep8-indent',
 
   -- Git related plugins
   'tpope/vim-fugitive',
