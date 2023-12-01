@@ -99,10 +99,10 @@ if type nvim > /dev/null 2>&1; then
     alias vim='nvim'
     alias dvim='nvim -R -'
 fi
-if type vimr > /dev/null 2>&1; then
-    alias vv='vimr -n'
-elif type nvim-qt > /dev/null 2>&1; then
+if type nvim-qt > /dev/null 2>&1; then
     alias vv='nvim-qt'
+elif type vimr > /dev/null 2>&1; then
+    alias vv='vimr -n'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
 
