@@ -1,5 +1,3 @@
-# This is Git's per-user configuration file.
-
 [include]
     path = ~/.gitconfig.local
 
@@ -23,7 +21,7 @@
     #up = pull --rebase --autostash
 
 [core]
-    excludesfile = /Users/mrichman/.gitignore_global
+    excludesfile = ~/.gitignore_global
     pager = less -R
 
 [color]
@@ -31,3 +29,5 @@
 
 [init]
     defaultBranch = main
+
+# vim: ft=gitconfig sw=4 sts=4 expandtab
