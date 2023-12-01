@@ -134,6 +134,7 @@ local wk_mappings = {
     i = { ":IBLToggle<cr>", "Toggle indentation guides" },
     s = { ":set spell!<cr>", "Toggle spellcheck" },
     t = { ":NvimTreeToggle<cr>", "Toggle [T]ree" },
+    w = { ":set wrap!<cr>", "Toggle [w]rap" }
   },
 
   -- section documentation
