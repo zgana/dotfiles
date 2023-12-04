@@ -20,14 +20,35 @@ cmp.setup {
     ['<C-p>'] = cmp.mapping.select_prev_item(),
     ['<C-b>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete {},
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
+    ["<CR>"] = cmp.mapping({
+      i = function(fallback)
+        if cmp.visible() and cmp.get_active_entry() then
+          cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
+        else
+          fallback()
+        end
+      end,
+      s = cmp.mapping.confirm({ select = true }),
+      c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true }),
+    }),
+    ['<C-Space>'] = cmp.mapping(function(_)
+      if cmp.visible() then
+        cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })
+      else
+        cmp.complete()
+      end
+    end, { 'i', 's' }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        cmp.select_next_item()
+        -- cmp.select_next_item()
+        local entry = cmp.get_active_entry()
+        if entry then
+          -- cmp.select_next_item()
+        else
+          cmp.select_next_item({ count = 1, behavior = cmp.SelectBehavior.select })
+          -- cmp.select_prev_item({ behavior = cmp.SelectBehavior.select })
+          -- cmp.select_next_item({ count=1, behavior = cmp.SelectBehavior.insert })
+        end
       elseif luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
       else
