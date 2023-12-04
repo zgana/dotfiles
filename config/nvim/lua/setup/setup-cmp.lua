@@ -40,15 +40,7 @@ cmp.setup {
     end, { 'i', 's' }),
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
-        -- cmp.select_next_item()
-        local entry = cmp.get_active_entry()
-        if entry then
-          -- cmp.select_next_item()
-        else
-          cmp.select_next_item({ count = 1, behavior = cmp.SelectBehavior.select })
-          -- cmp.select_prev_item({ behavior = cmp.SelectBehavior.select })
-          -- cmp.select_next_item({ count=1, behavior = cmp.SelectBehavior.insert })
-        end
+        cmp.select_next_item()
       elseif luasnip.expand_or_locally_jumpable() then
         luasnip.expand_or_jump()
       else
