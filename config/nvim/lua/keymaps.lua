@@ -29,6 +29,9 @@ vim.keymap.set({'i', 's'}, '<c-e>', function()
   end
 end, { silent = true })
 
+-- dap
+local dapui = require("dapui")
+
 local wk = require('which-key')
 
 local wk_mappings = {
@@ -120,6 +123,29 @@ local wk_mappings = {
     }
   },
 
+  -- debug
+  b = {
+    b = { "<cmd> DapToggleBreakpoint <cr>", "Toggle [B]reakpoint" },
+    i = { "<cmd> DapStepInto <cr>", "[S]tep [I]nto" },
+    s = { "<cmd> DapStepOver <cr>", "[S]tep Over" },
+    o = { "<cmd> DapStepOut <cr>", "[S]tep [O]ut" },
+    t = { "<cmd> DapTerminate <cr>", "[T]erminate" },
+    u = { dapui.toggle, "[U]I [T]oggle" },
+  },
+
+  -- code stuff
+  c = {
+    L = { vim.lsp.codelens.refresh, "Code[L]ens Refresh" },
+    l = { vim.lsp.codelens.run, "Code[L]ens Run" },
+  },
+
+  -- more search stuff
+  s = {
+    c = {
+      r = {  "<cmd> Telescope lsp_references <cr>", "[C]ode [R]eferences" },
+    },
+  },
+
   -- UI
   u = {
     a = { ":AerialToggle<cr>", "Toggle [A]erial" },
@@ -150,6 +176,7 @@ wk.register(wk_mappings, wk_opts)
 
 
 local wk_docs = {
+  ["<leader>b"] = { name = "De[B]ug", _ = "which_key_ignore"},
   ["<leader>f"] = { name = "Config [F]iles", _ = "which_key_ignore"},
   ["<leader>fo"] = { name = "[O]pen...", _ = "which_key_ignore"},
   ["<leader>fs"] = { name = "[S]ource...", _ = "which_key_ignore"},

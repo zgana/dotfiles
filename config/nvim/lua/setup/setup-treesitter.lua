@@ -21,13 +21,21 @@ vim.defer_fn(function()
     -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
     auto_install = false,
 
+
+    -- fold = {
+    --   enable = true,
+    --   disable = { "python" },
+    -- },
+
     highlight = {
       enable = true
     },
+
     indent = {
       enable = true,
       disable = { "python" }
     },
+
     incremental_selection = {
       enable = true,
       keymaps = {
@@ -37,6 +45,7 @@ vim.defer_fn(function()
         node_decremental = '<M-space>',
       },
     },
+
     textobjects = {
       select = {
         enable = true,
@@ -51,6 +60,7 @@ vim.defer_fn(function()
           ['ic'] = '@class.inner',
         },
       },
+
       move = {
         enable = true,
         set_jumps = true, -- whether to set jumps in the jumplist
@@ -71,6 +81,7 @@ vim.defer_fn(function()
           ['[]'] = '@class.outer',
         },
       },
+
       swap = {
         enable = true,
         swap_next = {

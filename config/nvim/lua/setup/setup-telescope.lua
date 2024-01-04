@@ -1,6 +1,9 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
-require('telescope').setup {
+
+local telescope = require('telescope')
+
+telescope.setup {
   defaults = {
     mappings = {
       i = {
@@ -17,7 +20,10 @@ require('telescope').setup {
 }
 
 -- Enable telescope fzf native, if installed
-pcall(require('telescope').load_extension, 'fzf')
+pcall(telescope.load_extension, 'fzf')
+
+telescope.load_extension('lsp_handlers')
+telescope.load_extension('ui-select')
 
 -- Telescope live_grep in git root
 -- Function to find the git root directory based on the current buffer's path
@@ -69,6 +75,9 @@ vim.keymap.set('n', '<leader>/', tb.current_buffer_fuzzy_find, { desc = "[/] Fin
 --     previewer = false,
 --   })
 -- end, { desc = '[/] Fuzzily search in current buffer' })
+
+
+
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })

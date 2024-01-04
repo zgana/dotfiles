@@ -9,9 +9,13 @@ local plugins = {
   -- toggle LSP
   'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
 
-  -- more python
+  -- lua
+  'folke/neodev.nvim',
+
+  -- some python
   'tmhedberg/SimpylFold',
   'Vimjas/vim-python-pep8-indent',
+
 
   -- Git related plugins
   'tpope/vim-fugitive',

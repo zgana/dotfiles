@@ -4,9 +4,9 @@ local npairs = require('nvim-autopairs')
 npairs.add_rules({
 
   -- Lua
-  Rule("( ", " ", {"lua"}),
-  Rule("[ ", " ", {"lua"}),
-  Rule("{ ", " ", {"lua"}),
+  Rule("( ", " ", {"lua", "rust"}),
+  Rule("[ ", " ", {"lua", "rust"}),
+  Rule("{ ", " ", {"lua", "rust"}),
 
   -- TeX / LaTeX
   Rule("$", "$", {"tex", "latex"}),
