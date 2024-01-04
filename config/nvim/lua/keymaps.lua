@@ -4,6 +4,15 @@
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
+-- mac stuff
+-- vim.keymap.set('n', '<D-v>', '"+P', { silent = true })
+-- TODO: following imap does not work for appending at end of line
+vim.keymap.set('i', '<D-v>', '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', { silent = true })
+-- vim.keymap.set('i', '<D-v>', '<c-o>"+P', { silent = true })
+vim.keymap.set('s', '<D-v>', 'c<c-o>"+P', { silent = true })
+vim.keymap.set('c', '<D-v>', '<c-r>+ <backspace>', { silent = true })
+vim.keymap.set('v', '<D-c>', '"+y', { silent = true })
+
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
@@ -156,11 +165,17 @@ local wk_mappings = {
       ,
       "Toggle LSP diagnostics"
     },
+    e = { ":Telescope emoji<cr>", "Search for [e]moji" },
     n = { ":set number!<cr>", "Toggle line [n]umbers" },
     i = { ":IBLToggle<cr>", "Toggle indentation guides" },
     s = { ":set spell!<cr>", "Toggle spellcheck" },
     t = { ":NvimTreeToggle<cr>", "Toggle [T]ree" },
-    w = { ":set wrap!<cr>", "Toggle [w]rap" }
+    w = { ":set wrap!<cr>", "Toggle [w]rap" },
+    W = { function()
+      local wrap = vim.o.wrap
+      vim.o.wrap = not wrap
+      vim.o.linebreak = not wrap
+    end, "Toggle [w]rap (text)" }
   },
 
   -- section documentation

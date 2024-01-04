@@ -1,6 +1,5 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
-
 local telescope = require('telescope')
 
 telescope.setup {
@@ -16,12 +15,27 @@ telescope.setup {
     colorscheme = {
       enable_preview = true
     }
-  }
+  },
+  extensions = {
+    emoji = {
+      action = function(emoji)
+        -- argument emoji is a table.
+        -- {name="", value="", cagegory="", description=""}
+
+        vim.fn.setreg("*", emoji.value)
+        print([[Press p or "*p to paste this emoji]] .. emoji.value)
+
+        -- insert emoji when picked
+        -- vim.api.nvim_put({ emoji.value }, 'c', false, true)
+      end,
+    }
+  },
 }
 
 -- Enable telescope fzf native, if installed
 pcall(telescope.load_extension, 'fzf')
 
+telescope.load_extension("emoji")
 telescope.load_extension('lsp_handlers')
 telescope.load_extension('ui-select')
 

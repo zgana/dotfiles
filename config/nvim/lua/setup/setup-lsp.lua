@@ -57,6 +57,8 @@ local servers = {
     }
   },
 
+  jdtls = {},
+
   -- tsserver = {},
   html = { filetypes = { 'html', 'twig', 'hbs'} },
 

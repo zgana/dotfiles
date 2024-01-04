@@ -18,10 +18,13 @@ require('lazy-bootstrap')
 -- [[ Configure plugins ]]
 require('lazy-plugins')
 
--- [[ Setting options ]]
+-- [[ Set options ]]
 require('opts')
 
--- [[ Basic Keymaps ]]
+-- [[ Set auto commands ]]
+require('autocmd')
+
+-- [[ Set basic Keymaps ]]
 require('keymaps')
 
 -- [[ Apply plugin configurations ]]

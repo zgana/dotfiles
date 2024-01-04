@@ -11,6 +11,7 @@ vim.defer_fn(function()
     -- Add languages to be installed here that you want installed for treesitter
     ensure_installed = {
       'c', 'cpp', 'go', 'lua',
+      'java', 'scala',
       'markdown',
       'python',
       'rust',
