@@ -55,6 +55,9 @@ local servers = {
     ["rust-analyzer"] = {
       cargo = {
         allFeatures = true,
+        buildScripts = {
+          enable = true,
+        }
       }
     }
   },
