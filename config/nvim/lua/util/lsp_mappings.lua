@@ -6,15 +6,19 @@ on_attach = function(_, bufnr)
   -- In this case, we create a func that lets us more easily define mappings specific
   -- for LSP related items. It sets the mode, buffer and description for us each time.
   local nmap = function(keys, func, desc)
-    if desc then
-      desc = 'LSP: ' .. desc
-    end
-
+    if desc then desc = 'LSP: ' .. desc end
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
+  local vmap = function(keys, func, desc)
+    if desc then desc = 'LSP: ' .. desc end
+    vim.keymap.set('v', keys, func, { buffer = bufnr, desc = desc })
+  end
+
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code [A]ction')
-  nmap('<leader>cr', vim.lsp.buf.rename, '[R]ename')
+  vmap('<leader>ca', vim.lsp.buf.code_action, 'Code [A]ction')
+  nmap('<leader>cc', vim.lsp.buf.rename, '[C]hange name (rename)')
+  nmap('<leader>cr', vim.lsp.buf.references, '[R]eferences')
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
   nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')

@@ -6,15 +6,15 @@ telescope.setup {
   defaults = {
     mappings = {
       i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        -- ['<C-u>'] = false,
+        -- ['<C-d>'] = false,
       },
     },
   },
   pickers = {
     colorscheme = {
-      enable_preview = true
-    }
+      enable_preview = true,
+    },
   },
   extensions = {
     emoji = {

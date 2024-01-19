@@ -9,6 +9,7 @@ endif
 
 if exists(':GuiTabline')
     GuiTabline 0
+    GuiRenderFontAttr 0
 endif
 
 
