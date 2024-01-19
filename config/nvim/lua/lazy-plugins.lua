@@ -15,6 +15,7 @@ local plugins = {
   -- some python
   'tmhedberg/SimpylFold',
   'Vimjas/vim-python-pep8-indent',
+  'raimon49/requirements.txt.vim',
 
 
   -- Git related plugins
