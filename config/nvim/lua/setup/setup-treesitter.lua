@@ -34,7 +34,7 @@ vim.defer_fn(function()
 
     indent = {
       enable = true,
-      disable = { "python" }
+      disable = { "python", "rust" }
     },
 
     incremental_selection = {
