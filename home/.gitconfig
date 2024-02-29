@@ -1,0 +1,33 @@
+[include]
+    path = ~/.gitconfig.local
+
+[alias]
+    lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+    lg2 = "!f() { git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' $@; }; f"
+
+    lga = log --graph --decorate --abbrev-commit
+    lgp = log --graph --decorate --abbrev-commit --first-parent --stat
+
+
+    # graphviz log
+    ; graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
+
+    # clone with personal account
+    zclone = !"$(echo git clone $@ | sed 's/github.com/zgana.github.com/') #"
+    lzclone = !"$(echo git clone $@ | sed 's/gitlab.com/lazgana.gitlab.com/') #"
+    # push with personal account
+    zemail = config user.email mike.d.richman@gmail.com
+
+    #up = pull --rebase --autostash
+
+[core]
+    excludesfile = ~/.gitignore_global
+    pager = less -R
+
+[color]
+    ui = true
+
+[init]
+    defaultBranch = main
+
+# vim: ft=gitconfig sw=4 sts=4 expandtab

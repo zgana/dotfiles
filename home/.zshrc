@@ -1,3 +1,6 @@
+# tolerate insecure brew
+ZSH_DISABLE_COMPFIX=true
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -52,17 +55,13 @@ DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages)
+plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages poetry zsh-syntax-highlighting)
 
 # User configuration
 
 
-# Rust PATH
-#export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-
 # export MANPATH="/usr/local/man:$MANPATH"
 source $ZSH/oh-my-zsh.sh
-source $HOME/.dotfiles/external/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -95,25 +94,21 @@ source $HOME/.dotfiles/external/zsh-syntax-highlighting/zsh-syntax-highlighting.
 bindkey -M viins '^[' vi-cmd-mode
 bindkey -M vicmd '^[' vi-cmd-mode
 export EDITOR="nvim"
-export SVN_EDITOR="nvim"
 if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-  alias gvim='nvim-gtk'
-  alias vv='nvim-gtk'
-  alias dvim='nvim -R -'
-else
-  alias dvim='vim -R -'
+    alias vim='nvim'
+    alias dvim='nvim -R -'
+fi
+if type nvim-qt > /dev/null 2>&1; then
+    alias vv='nvim-qt'
+elif type vimr > /dev/null 2>&1; then
+    alias vv='vimr -n'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
 
-# paging
-export PAGER='less -R'
-alias less='less -R'
-
 # history
 HISTFILE=~/.zhistfile
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1000000
+SAVEHIST=1000000
 setopt appendhistory autocd notify extendedglob
 bindkey "^[OA" history-beginning-search-backward
 bindkey "^[OB" history-beginning-search-forward
@@ -143,13 +138,13 @@ fi
 
 
 # more aliases
-alias gls='ls --group-directories-first --color=tty'
-#alias ipython='ipython --pylab=gtk'
-alias jd='jbo define'
-jf() { jbo filter "$@" | JBO_ESCAPES=always def | less -R; }
 alias xclipc='xclip -selection clipboard'
-alias sm='make html'
 
+if type brew &>/dev/null
+then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+  autoload -Uz compinit
+fi
 
 
 # ls
@@ -204,6 +199,7 @@ function docker-df() {
 
 # custom completion
 fpath=(~/.zsh/completion $fpath)
+fpath+=~/.zfunc
 autoload -U compinit
 compinit
 zstyle ':completion:*' menu select=2
@@ -226,56 +222,14 @@ function crop_pngs() {
   done
 }
 
+# Python libs
+export DARTS_CONFIGURE_MATPLOTLIB=0
+source $HOME/.hatch-complete.zsh
+
 # AWS
+source $ZSH_CUSTOM/aws.zsh
 
-alias k='kubectl'
-
-# Checking and setting the kubectl context
-alias kcgc='kubectl config get-contexts'
-alias kcgcc="kubectl config get-contexts | grep '^*' | awk '{print \$2}'"
-alias kcuc='kubectl config use-context'
-
-# Dealing with evicted pods
-alias kubectl-evicted-details="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\"))' | jq -C"
-alias kubectl-evicted-reason="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\"))' | jq -s '[.[] | {namespace: .metadata.namespace, message: .status.message, time: .status.startTime}] | sort_by(.time)' | jq -C"
-alias kubectl-evicted-list="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"\(.metadata.name) \(.status.message)\" ' | sed 's/\"//g'"
-alias kubectl-evicted-list-uniq="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"\(.metadata.namespace)\" ' | sed 's/\"//g' | sort | uniq"
-alias kubectl-evicted-count='kubectl-evicted-list | wc -l'
-alias kubectl-evicted-DELETE="kubectl get pod --all-namespaces -o json | jq '.items[] | select(.status.reason!=null) | select(.status.reason | contains(\"Evicted\")) | \"kubectl delete pod \(.metadata.name) -n \(.metadata.namespace)\"' | xargs -n 1 bash -c"
-
-# short aliases for evicted pods
-alias kcce=kubectl-evicted-count
-alias kcleu=kubectl-evicted-list-uniq
-alias kcle=kubectl-evicted-list
-alias kcre=kubectl-evicted-reason
-alias kcde=kubectl-evicted-details
-alias kcDE=kubectl-evicted-DELETE
-
-# List node external DNS
-function cluster-nodes() {
-  kubectl describe nodes | grep ExternalDNS | sed 's/.*ec2/ec2/'
-}
-
-# List commands to ssh into nodes
-function cluster-ssh() {
-  kubectl describe nodes | grep ExternalDNS | sed 's/.*ec2/ec2/;s/^/ssh ec2-user@/'
-}
-
-# Check memory usage
-# (you must be listed in the nodes' authorized_keys)
-function cluster-mem() {
-  for node in $(cluster-nodes)
-  do
-    total=$(ssh ec2-user@$node 'head -n1 /proc/meminfo | awk "{print \$2}"')
-    # TODO: mem usage is notoriously difficult to pin down
-    # using /proc/meminfo line 2 might be overly pessimistic
-    free=$(ssh ec2-user@$node 'head -n2 /proc/meminfo | tail -n1 | awk "{print \$2}"')
-    python -c "print('{:7.2%} free'.format($free/$total))"
-  done
-}
-
-
-# GIT
+# Git
 alias gbc='git branch | cat'
 
 # PATH

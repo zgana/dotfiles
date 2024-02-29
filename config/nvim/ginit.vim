@@ -1,7 +1,24 @@
-"GuiFont DejaVu Sans Mono for Powerline:h10
-" call rpcnotify(1, 'Gui', 'Font', 'DejaVu Sans Mono for Powerline 10')
-" call rpcnotify(1, 'Gui', 'Option', 'Tabline', 0)
+if exists(':GuiFont')
+    " Use GuiFont! to ignore font errors
+    if has('macunix')
+        GuiFont Monaco Nerd Font Mono:h13
+    else
+        GuiFont Hack Nerd Font:h10
+    endif
+endif
 
-set t_Co=256
-set termguicolors
-let g:airline_powerline_fonts = 1
+if exists(':GuiTabline')
+    GuiTabline 0
+endif
+
+if exists(':GuiRenderFontAttr')
+    GuiRenderFontAttr 0
+endif
+
+
+if has('macunix')
+    noremap <ScrollWheelUp> <ScrollWheelDown>
+    noremap <ScrollWheelDown> <ScrollWheelUp>
+    noremap <ScrollWheelLeft> <ScrollWheelRight>
+    noremap <ScrollWheelRight> <ScrollWheelLeft>
+endif
