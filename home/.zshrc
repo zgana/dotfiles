@@ -141,12 +141,6 @@ fi
 # more aliases
 alias xclipc='xclip -selection clipboard'
 
-# private config
-source $HOME/.zshrc.local
-
-
-# # brew
-
 if type brew &>/dev/null
 then
   FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
@@ -225,3 +219,7 @@ alias gbc='git branch | cat'
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+# private config
+source $HOME/.zshrc.local
+
