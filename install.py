@@ -5,7 +5,6 @@ import datetime
 from glob import glob
 import os
 import re
-import sys
 
 
 base_install_dirs = {
@@ -17,6 +16,8 @@ base_install_dirs = {
     "ipython/profile_default": ".ipython/profile_default",
     "ipython/profile_default---startup": ".ipython/profile_default/startup",
     "matplotlib": ".matplotlib",
+    # oh-my-zsh
+    "oh-my-zsh/custom": ".oh-my-zsh/custom",
 }
 
 home = os.getenv("HOME")
