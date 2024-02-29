@@ -61,7 +61,6 @@ plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol 
 
 
 # export MANPATH="/usr/local/man:$MANPATH"
-
 source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
@@ -119,22 +118,22 @@ bindkey '^r' history-incremental-search-backward
 
 
 # highlighting
-if [ -d $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting ]
+if [ -d $HOME/.dotfiles/external/zsh-syntax-highlighting ]
 then
-    ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
-    ZSH_HIGHLIGHT_STYLES[alias]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[builtin]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[function]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
-    ZSH_HIGHLIGHT_STYLES[precommand]=none
-    ZSH_HIGHLIGHT_STYLES[hashed-command]=none
-    ZSH_HIGHLIGHT_STYLES[path]=none
-    ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=cyan,bold
-    ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=cyan
-    ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=cyan,bold
-    ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=blue,bold
-    ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+  ZSH_HIGHLIGHT_STYLES[alias]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[builtin]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[function]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[command]=fg=white,bold
+  ZSH_HIGHLIGHT_STYLES[precommand]=none
+  ZSH_HIGHLIGHT_STYLES[hashed-command]=none
+  ZSH_HIGHLIGHT_STYLES[path]=none
+  ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=cyan,bold
+  ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=cyan
+  ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=cyan,bold
+  ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
 fi
 
 
@@ -150,40 +149,53 @@ fi
 
 # ls
 function lt() {
-    if test "x$1" = "x"; then
-        ls | tail
-    else
-        ls | tail -n$1
-    fi
+  if test "x$1" = "x"; then
+    ls | tail
+  else
+    ls | tail -n$1
+  fi
 }
 
 # tmux
 function tm() {
-    if test "$1" = "ls"; then
-        tmux ls
-        return
-    fi
-    if test "x$1" = "x"; then
-        tmux -2 new-session
-        return
-    fi
-    if test `tmux ls |grep $1 |wc -l` -ge 1; then
-        tmux a -dt $1
-        return
-    fi
-    conf_file=$HOME/tmux/$1.conf
-    if test -f $conf_file; then
-        tmux -2 new-session -s $1 "tmux source-file \"$conf_file\" "
-    else
-        tmux -2 new-session -s $1
-    fi
+  if test "$1" = "ls"; then
+    tmux ls
+    return
+  fi
+  if test "x$1" = "x"; then
+    tmux -2 new-session
+    return
+  fi
+  if test `tmux ls |grep $1 |wc -l` -ge 1; then
+    tmux a -dt $1
+    return
+  fi
+  conf_file=$HOME/tmux/$1.conf
+  if test -f $conf_file; then
+    tmux -2 new-session -s $1 "tmux source-file \"$conf_file\" "
+  else
+    tmux -2 new-session -s $1
+  fi
 }
 
 # virtualenv
 function ve() {
-    source $HOME/ve/$1/bin/activate
+  if test "$1" = "ls"; then
+    ls $HOME/ve | cat
+    return
+  fi
+  if test "$1" = "create"; then
+    virtualenv $HOME/ve/$2
+    return
+  fi
+  source $HOME/ve/$1/bin/activate
 }
 export PIPENV_VENV_IN_PROJECT=1
+
+# docker
+function docker-df() {
+  (docker system df -v | head -n3 ; docker system df -v | egrep $1) | gawk -F' \\s+' '{printf "%120-s %15s %15s %15s\n",$1, $5, $6, $7}' | egrep --color=never "(REPOSITORY)|($1)"
+}
 
 # custom completion
 fpath=(~/.zsh/completion $fpath)
@@ -194,25 +206,28 @@ zstyle ':completion:*' menu select=2
 
 # bring my ssh agent everywhere! (see also, .tmux.conf)
 function _ssh_auth_save() {
-    sock_file="$HOME/.ssh/ssh-auth-sock.`hostname`"
-    if test "$sock_file" != "$SSH_AUTH_SOCK"; then
-        ln -sf "$SSH_AUTH_SOCK" "$sock_file"
-    fi
-    export SSH_AUTH_SOCK="$sock_file"
+  sock_file="$HOME/.ssh/ssh-auth-sock.`hostname`"
+  if test "$sock_file" != "$SSH_AUTH_SOCK"; then
+    ln -sf "$SSH_AUTH_SOCK" "$sock_file"
+  fi
+  export SSH_AUTH_SOCK="$sock_file"
 }
 _ssh_auth_save
 
 # make "crop" dir with cropped PNGs
 function crop_pngs() {
-    mkdir -p crop
-    for f in *png; do
-        convert $f -trim -bordercolor white -border 10x10 crop/$f
-    done
+  mkdir -p crop
+  for f in *png; do
+    convert $f -trim -bordercolor white -border 10x10 crop/$f
+  done
 }
 
 # Python libs
 export DARTS_CONFIGURE_MATPLOTLIB=0
 source $HOME/.hatch-complete.zsh
+
+# AWS
+source $ZSH_CUSTOM/aws.zsh
 
 # Git
 alias gbc='git branch | cat'
@@ -223,3 +238,4 @@ export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 # private config
 source $HOME/.zshrc.local
 
+# vim: sw=2 sts=2
