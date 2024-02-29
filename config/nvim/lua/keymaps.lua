@@ -6,12 +6,16 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- mac stuff
 -- vim.keymap.set('n', '<D-v>', '"+P', { silent = true })
--- TODO: following imap does not work for appending at end of line
-vim.keymap.set('i', '<D-v>', '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', { silent = true })
--- vim.keymap.set('i', '<D-v>', '<c-o>"+P', { silent = true })
-vim.keymap.set('s', '<D-v>', 'c<c-o>"+P', { silent = true })
-vim.keymap.set('c', '<D-v>', '<c-r>+ <backspace>', { silent = true })
-vim.keymap.set('v', '<D-c>', '"+y', { silent = true })
+local guipaste = '<M-v>'
+local guicopy = '<M-c>'
+if vim.fn.has('macunix') == 1 then
+  guipaste = '<D-v>'
+  guicopy = '<D-c>'
+end
+vim.keymap.set('i', guipaste, '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', { silent = true })
+vim.keymap.set('s', guipaste, 'c<c-o>"+P', { silent = true })
+vim.keymap.set('c', guipaste, '<c-r>+ <backspace>', { silent = true })
+vim.keymap.set('v', guicopy, '"+y', { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
