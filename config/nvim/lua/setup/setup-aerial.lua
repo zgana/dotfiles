@@ -1,5 +1,6 @@
 require("aerial").setup({
   layout = {
+    min_width = 16,
     max_width = { 40, 0.3 },
   },
   on_attach = function(bufnr)
