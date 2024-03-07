@@ -55,7 +55,7 @@ DEBIAN_PREVENT_KEYBOARD_CHANGES=yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages poetry zsh-syntax-highlighting)
+plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages zsh-syntax-highlighting)
 
 # User configuration
 
