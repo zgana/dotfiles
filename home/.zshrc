@@ -187,6 +187,17 @@ autoload -U compinit
 compinit
 zstyle ':completion:*' menu select=2
 
+autoload -U bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+
+
+if type pipx > /dev/null 2>&1; then
+  eval "$(register-python-argcomplete pipx)"
+fi
+if type aws > /dev/null 2>&1; then
+  complete -C aws_completer aws
+fi
+
 # bring my ssh agent everywhere! (see also, .tmux.conf)
 function _ssh_auth_save() {
   sock_file="$HOME/.ssh/ssh-auth-sock.`hostname`"
