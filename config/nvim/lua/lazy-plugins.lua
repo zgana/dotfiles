@@ -49,6 +49,8 @@ local plugins = {
   -- code symbol tree
   'stevearc/aerial.nvim',
 
+  -- tmux
+  'edkolev/tmuxline.vim',
 
   -- Highlight, edit, and navigate code
   {
