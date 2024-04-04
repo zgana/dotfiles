@@ -21,8 +21,11 @@ local plugins = {
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
-  -- Detect tabstop and shiftwidth automatically
+  -- More tpope
   'tpope/vim-sleuth',
+  'tpope/vim-surround',
+  'tpope/vim-repeat',
+  'tpope/vim-rsi',
 
   -- Useful plugin to show you pending keybinds.
   { 'folke/which-key.nvim', opts = {} },
@@ -32,12 +35,6 @@ local plugins = {
 
   -- paren/bracket/brace matching
   { 'windwp/nvim-autopairs', opts = {} },
-
-  -- wrap objects/selections
-  'tpope/vim-surround',
-
-  -- repeat otherwise non-atomic actions like vim-surround actions
-  'tpope/vim-repeat',
 
   -- file tree
   'nvim-tree/nvim-tree.lua',
