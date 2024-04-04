@@ -21,12 +21,9 @@ telescope.setup {
       action = function(emoji)
         -- argument emoji is a table.
         -- {name="", value="", cagegory="", description=""}
-
-        vim.fn.setreg("*", emoji.value)
-        print([[Press p or "*p to paste this emoji]] .. emoji.value)
-
-        -- insert emoji when picked
-        -- vim.api.nvim_put({ emoji.value }, 'c', false, true)
+        vim.fn.setreg("", emoji.value)
+      --   -- insert emoji when picked
+      --   -- vim.api.nvim_put({ emoji.value }, 'c', false, true)
       end,
     }
   },
@@ -91,8 +88,6 @@ vim.keymap.set('n', '<leader>/', tb.current_buffer_fuzzy_find, { desc = "[/] Fin
 -- end, { desc = '[/] Fuzzily search in current buffer' })
 
 
-
-
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
@@ -101,5 +96,7 @@ vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
+
+-- vim.keymap.set('n', '<leader>ue', ":Telescope emoji<cr>", { desc = "Search for [e]moji" })
 
 -- vim: ts=2 sts=2 sw=2 et
