@@ -17,9 +17,6 @@ local plugins = {
   'Vimjas/vim-python-pep8-indent',
   'raimon49/requirements.txt.vim',
 
-  -- tex
-  { 'lervag/vimtex', lazy=false },
-
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
