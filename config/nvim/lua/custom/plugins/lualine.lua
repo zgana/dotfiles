@@ -25,8 +25,12 @@ return {
       lualine_a = { '%{tabpagewinnr(tabpagenr())}', 'mode' },
       lualine_b = { 'branch', 'diff', 'diagnostics' },
       lualine_c = { 'filename' },
-      lualine_x = { 'encoding', 'fileformat', 'filetype' },
-      lualine_y = { '%l/%L', 'progress' },
+      lualine_x = {
+        -- 'encoding',
+        -- 'fileformat',
+        'filetype'
+      },
+      lualine_y = { '%l/%L (%p%%)' },
       lualine_z = { 'location' }
     },
     inactive_sections = {
@@ -40,6 +44,6 @@ return {
     tabline = {},
     winbar = {},
     inactive_winbar = {},
-    extensions = {}
+    extensions = {'aerial', 'lazy'}
   },
 }
