@@ -4,8 +4,7 @@
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
--- mac stuff
--- vim.keymap.set('n', '<D-v>', '"+P', { silent = true })
+-- system clipboard
 local guipaste = '<M-v>'
 local guicopy = '<M-c>'
 if vim.fn.has('macunix') == 1 then
