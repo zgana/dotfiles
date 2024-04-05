@@ -228,6 +228,7 @@ source $ZSH_CUSTOM/aws.zsh
 
 # Git
 alias gbc='git branch | cat'
+alias glf='git pull --ff'
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
