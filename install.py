@@ -18,6 +18,7 @@ base_install_dirs = {
     "matplotlib": ".matplotlib",
     # oh-my-zsh
     "oh-my-zsh/custom": ".oh-my-zsh/custom",
+    "oh-my-zsh/custom--themes": ".oh-my-zsh/custom/themes",
 }
 
 home = os.getenv("HOME")
