@@ -2,9 +2,10 @@
 
 
 import datetime
-from glob import glob
+import errno
 import os
 import re
+from glob import glob
 
 
 base_install_dirs = {
@@ -58,9 +59,9 @@ def ensure_dir(dirname):
     """Make sure ``dirname`` exists and is a directory."""
     if not os.path.isdir(dirname):
         try:
-            os.makedirs(dirname)  # throws if exists as file
+            os.makedirs(dirname, exist_ok=False)
         except OSError as e:
-            if e.errno != os.errno.EEXIST:
+            if e.errno != errno.EEXIST:
                 raise
     return dirname
 
