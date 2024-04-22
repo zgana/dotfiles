@@ -50,6 +50,15 @@ local servers = {
     }
   },
 
+  ruff_lsp = {
+    init_options = {
+      settings = {
+        -- Any extra CLI arguments for `ruff` go here.
+        args = {},
+      }
+    }
+  },
+
   rust_analyzer = {
     enable = false,
     ["rust-analyzer"] = {
