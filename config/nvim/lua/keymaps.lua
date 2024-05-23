@@ -5,16 +5,16 @@
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- system clipboard
-local guipaste = '<M-v>'
-local guicopy = '<M-c>'
-if vim.fn.has('macunix') == 1 then
-  guipaste = '<D-v>'
-  guicopy = '<D-c>'
+vim.keymap.set('i', '<M-v>', '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', { silent = true })
+vim.keymap.set('s', '<M-v>', 'c<c-o>"+P', { silent = true })
+vim.keymap.set('c', '<M-v>', '<c-r>+ <backspace>', { silent = true })
+vim.keymap.set('v', '<M-c>', '"+y', { silent = true })
+if vim.fn.has('macunix') ~= 0 then
+  vim.keymap.set('i', '<D-v>', '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', { silent = true })
+  vim.keymap.set('s', '<D-v>', 'c<c-o>"+P', { silent = true })
+  vim.keymap.set('c', '<D-v>', '<c-r>+ <backspace>', { silent = true })
+  vim.keymap.set('v', '<D-c>', '"+y', { silent = true })
 end
-vim.keymap.set('i', guipaste, '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', { silent = true })
-vim.keymap.set('s', guipaste, 'c<c-o>"+P', { silent = true })
-vim.keymap.set('c', guipaste, '<c-r>+ <backspace>', { silent = true })
-vim.keymap.set('v', guicopy, '"+y', { silent = true })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
