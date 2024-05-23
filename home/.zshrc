@@ -96,15 +96,16 @@ source $ZSH/oh-my-zsh.sh
 # or is nvim life?
 bindkey -M viins '^[' vi-cmd-mode
 bindkey -M vicmd '^[' vi-cmd-mode
-export EDITOR="nvim"
 if type nvim > /dev/null 2>&1; then
-    alias vim='nvim'
-    alias dvim='nvim -R -'
+  alias vim='nvim'
+  alias dvim='nvim -R -'
+  export EDITOR="nvim"
+  export GIT_EDITOR="nvim"
 fi
 if type nvim-qt > /dev/null 2>&1; then
-    alias vv='nvim-qt'
+  alias vv='nvim-qt'
 elif type vimr > /dev/null 2>&1; then
-    alias vv='vimr -n'
+  alias vv='vimr -n'
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
 
@@ -180,7 +181,9 @@ export PIPENV_VENV_IN_PROJECT=1
 
 # docker
 function docker-df() {
-  (docker system df -v | head -n3 ; docker system df -v | egrep $1) | gawk -F' \\s+' '{printf "%120-s %15s %15s %15s\n",$1, $5, $6, $7}' | egrep --color=never "(REPOSITORY)|($1)"
+  (docker system df -v | head -n3 ; docker system df -v | egrep $1) \
+    | gawk -F' \\s+' '{printf "%120-s %15s %15s %15s\n",$1, $5, $6, $7}' \
+    | egrep --color=never "(REPOSITORY)|($1)"
 }
 
 # custom completion
