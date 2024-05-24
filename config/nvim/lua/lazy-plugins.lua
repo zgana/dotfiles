@@ -7,6 +7,9 @@ local plugins = {
   -- toggle LSP
   'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
 
+  -- async IO
+  { "nvim-neotest/nvim-nio" },
+
   -- lua
   'folke/neodev.nvim',
 
