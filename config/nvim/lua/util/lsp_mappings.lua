@@ -21,6 +21,7 @@ on_attach = function(_, bufnr)
   nmap('<leader>cr', vim.lsp.buf.references, '[R]eferences')
 
   nmap('<leader>==', function() vim.lsp.buf.format { async = true } end, 'Format with LSP')
+  nmap('<leader>=.', function() require('conform').format { async = true } end, 'Format with Formatter')
   -- TODO: <leader>=i to fix imports, <leader>=a to fix all, etc
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')

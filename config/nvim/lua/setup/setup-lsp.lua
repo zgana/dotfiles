@@ -34,11 +34,15 @@ require('mason-lspconfig').setup()
 --  define the property 'filetypes' to the map in question.
 local servers = {
   clangd = {},
-  -- gopls = {},
 
   -- We anxiously await the resolution to #22
   -- https://github.com/mtshiba/pylyzer/issues/22
   -- pylyzer = {},
+
+  bashls = {
+    filetypes = { 'sh', 'bash', 'zsh', },
+  },
+
 
   pyright = {
     python = {
@@ -50,14 +54,16 @@ local servers = {
     }
   },
 
-  ruff_lsp = {
-    init_options = {
-      settings = {
-        -- Any extra CLI arguments for `ruff` go here.
-        args = {},
-      }
-    }
-  },
+  ruff = {},
+
+  -- ruff_lsp = {
+  --   init_options = {
+  --     settings = {
+  --       -- Any extra CLI arguments for `ruff` go here.
+  --       args = {},
+  --     }
+  --   }
+  -- },
 
   rust_analyzer = {
     enable = false,
@@ -74,7 +80,7 @@ local servers = {
   jdtls = {},
 
   -- tsserver = {},
-  html = { filetypes = { 'html', 'twig', 'hbs'} },
+  html = { filetypes = { 'html', 'twig', 'hbs' } },
 
   lua_ls = {
     Lua = {
@@ -82,6 +88,7 @@ local servers = {
       telemetry = { enable = false },
     },
   },
+
 }
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -91,6 +98,7 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
 local mason_nvim_dap = require 'mason-nvim-dap'
+local mason_tool_installer = require 'mason-tool-installer'
 
 mason_lspconfig.setup {
   ensure_installed = vim.tbl_keys(servers),
@@ -114,8 +122,23 @@ mason_lspconfig.setup_handlers {
       filetypes = (settings or {}).filetypes,
     }
   end,
-  ["rust_analyzer"] = function () end,
+  ["rust_analyzer"] = function() end,
 }
 
+
+
+require("conform").setup({
+  formatters_by_ft = {
+    bash = { 'beautysh' },
+    sh = { 'beautysh' },
+    zsh = { 'beautysh' },
+  }
+})
+
+mason_tool_installer.setup {
+  ensure_installed = {
+    'beautysh',
+  },
+}
 
 -- vim: ts=2 sts=2 sw=2 et
