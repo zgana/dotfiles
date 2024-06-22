@@ -58,7 +58,7 @@ VI_MODE_DISABLE_CLIPBOARD=yes
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info lol pip colored-man-pages zsh-syntax-highlighting)
+plugins=(git vi-mode cp history-substring-search wd mosh tmux svn-fast-info pip colored-man-pages zsh-syntax-highlighting)
 
 # User configuration
 
@@ -234,7 +234,8 @@ alias gbc='git branch | cat'
 alias glf='git pull --ff'
 
 # PATH
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+# jk, set this in .zprofile instead
+#export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 # private config
 source $HOME/.zshrc.local
