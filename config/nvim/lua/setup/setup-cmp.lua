@@ -58,9 +58,10 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
+    { name = "crates" },
     { name = 'nvim_lsp' },
-    { name = 'luasnip' },
     { name = 'buffer' },
+    { name = 'luasnip' },
     { name = 'nvim_lsp_signature_help' },
   },
 }
