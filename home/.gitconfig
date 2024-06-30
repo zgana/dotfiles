@@ -46,5 +46,7 @@
 [diff]
     colorMoved = default
 
+[push]
+	autoSetupRemote = true
 
 # vim: ft=gitconfig sw=4 sts=4 expandtab
