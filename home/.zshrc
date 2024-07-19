@@ -165,6 +165,9 @@ function tm() {
   fi
 }
 
+# default highlight unless overridden in .zshrc.local
+export MY_TMUX_HIGHLIGHT="#87afd7"
+
 # virtualenv
 function ve() {
   if test "$1" = "ls"; then
