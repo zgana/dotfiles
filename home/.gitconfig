@@ -8,7 +8,6 @@
     lga = log --graph --decorate --abbrev-commit
     lgp = log --graph --decorate --abbrev-commit --first-parent --stat
 
-
     # graphviz log
     ; graphviz = "!f() { echo 'digraph git {' ; git log --pretty='format:  %h -> { %p }' \"$@\" | sed 's/[0-9a-f][0-9a-f]*/\"&\"/g' ; echo '}'; }; f"
 
@@ -30,7 +29,7 @@
 [init]
     defaultBranch = main
 
-    [interactive]
+[interactive]
     diffFilter = delta --color-only
 
 [delta]
@@ -47,6 +46,6 @@
     colorMoved = default
 
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
 
 # vim: ft=gitconfig sw=4 sts=4 expandtab
