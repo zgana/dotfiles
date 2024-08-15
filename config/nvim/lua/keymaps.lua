@@ -170,6 +170,7 @@ local wk_mappings = {
     },
     e = { ":Telescope emoji<cr>", "Search for [e]moji" },
     n = { ":set number!<cr>", "Toggle line [n]umbers" },
+    N = { ":NoNeckPain<cr>", "Toggle [N]oNeckPain" },
     i = { ":IBLToggle<cr>", "Toggle indentation guides" },
     s = { ":set spell!<cr>", "Toggle spellcheck" },
     t = { ":NvimTreeToggle<cr>", "Toggle [T]ree" },

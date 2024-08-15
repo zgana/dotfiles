@@ -74,8 +74,8 @@ vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
 local tb = require('telescope.builtin')
-vim.keymap.set('n', '<leader>?', tb.oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader><space>', tb.buffers, { desc = '[ ] Find existing buffers' })
+vim.keymap.set('n', '<leader><space>', tb.oldfiles, { desc = '[?] Find recently opened files' })
+vim.keymap.set('n', '<leader><tab>', tb.buffers, { desc = '[ ] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', tb.current_buffer_fuzzy_find, { desc = "[/] Find in current buffer" })
 
 -- [Example of more complex config]

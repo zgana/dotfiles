@@ -44,6 +44,9 @@ local plugins = {
   -- tmux
   'edkolev/tmuxline.vim',
 
+  -- "zen" centered editing
+  'shortcuts/no-neck-pain.nvim',
+
   -- Highlight, edit, and navigate code
   {
     'nvim-treesitter/nvim-treesitter',
