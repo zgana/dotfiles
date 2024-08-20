@@ -1,5 +1,5 @@
-vim.o.autoread = true
 vim.o.autochdir = true
+vim.o.autoread = true
 vim.o.cursorline = true
 vim.o.errorbells = false
 vim.o.expandtab = true
@@ -8,6 +8,7 @@ vim.o.hlsearch = false
 vim.o.ignorecase = true
 vim.o.incsearch = true
 vim.o.joinspaces = true
+vim.o.linebreak = true
 vim.o.magic = true
 vim.o.modeline = true
 vim.o.number = true
@@ -15,6 +16,7 @@ vim.o.ruler = true
 vim.o.smartcase = true
 vim.o.undofile = true
 vim.o.wildmenu = true
+vim.o.wrap = true
 
 vim.o.backspace = 'eol,indent,start'
 vim.o.bufhidden = 'hide'
