@@ -110,16 +110,10 @@ local wk_mappings = {
     -- name = "[F]iles",
     -- _ = 'which_key_ignore',
     o = {
-      f = { ":edit ~/.config/nvim/init.lua<cr>", "Edit root config" },
-      k = { ":edit ~/.config/nvim/lua/keymaps.lua<cr>", "Edit keymaps" },
-      n = { ":edit ~/.config/nvim/<cr>", "Edit root config directory" },
-      s = { ":edit ~/.dotfiles/<cr>", "Edit dotfiles directory" },
-
-      -- temporary
-      F = {
-        ":tabedit ~/.dotfiles/config/nvim-lua-1/init.lua<cr>",
-        "Edit previous root config in new tab",
-      },
+      f = { ":tabedit ~/.config/nvim/init.lua<cr>", "Edit root config" },
+      k = { ":tabedit ~/.config/nvim/lua/keymaps.lua<cr>", "Edit keymaps" },
+      n = { ":tabedit ~/.config/nvim/<cr>", "Edit root config directory" },
+      s = { ":tabedit ~/.dotfiles/<cr>", "Edit dotfiles directory" },
     },
     s = {
       k = {
