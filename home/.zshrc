@@ -109,6 +109,12 @@ elif type vimr > /dev/null 2>&1; then
 fi
 alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
 
+# show ^C on cancel
+TRAPINT() {
+  print -nP "%B%F{red}^C%f"
+  return $(( 128 + $1 ))
+}
+
 # history
 HISTFILE=~/.zhistfile
 HISTSIZE=1000000
@@ -119,7 +125,6 @@ bindkey "^[OB" history-beginning-search-forward
 bindkey "^p" history-beginning-search-backward
 bindkey "^n" history-beginning-search-forward
 bindkey '^r' history-incremental-search-backward
-
 
 # highlighting
 source $ZSH_CUSTOM/highlighting.zsh
