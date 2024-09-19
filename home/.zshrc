@@ -111,7 +111,7 @@ alias vimswapclear="rm -r $HOME/.local/share/nvim/swap/*.swp"
 
 # show ^C on cancel
 TRAPINT() {
-  print -nP "%B%F{red}^C%f"
+  print -nP "%B%F{red}^C%f%b"
   return $(( 128 + $1 ))
 }
 
