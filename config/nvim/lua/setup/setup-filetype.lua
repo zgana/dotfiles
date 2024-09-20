@@ -1,4 +1,7 @@
 vim.filetype.add({
-  pattern = {[".*/*.template"] = "yaml"},
+  pattern = {
+    [".*/*.template"] = "yaml",
+    [".*/.*.ya?ml.*jinja"] = "yaml",
+  },
 })
 
