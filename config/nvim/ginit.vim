@@ -14,11 +14,3 @@ endif
 if exists(':GuiRenderFontAttr')
     GuiRenderFontAttr 0
 endif
-
-
-if has('macunix')
-    noremap <ScrollWheelUp> <ScrollWheelDown>
-    noremap <ScrollWheelDown> <ScrollWheelUp>
-    noremap <ScrollWheelLeft> <ScrollWheelRight>
-    noremap <ScrollWheelRight> <ScrollWheelLeft>
-endif
