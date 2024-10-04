@@ -1,7 +1,12 @@
 vim.filetype.add({
   pattern = {
-    [".*/*.template"] = "yaml",
+    -- jinja templates
+    [".*/.*py.*jinja"] = "python",
+    [".*/.*toml.*jinja"] = "toml",
     [".*/.*.ya?ml.*jinja"] = "yaml",
+
+    -- e.g. cloudformation
+    [".*/*.template"] = "yaml",
   },
 })
 
