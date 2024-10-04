@@ -155,21 +155,21 @@ local wk_mappings = {
   -- UI
   u = {
     a = { ":AerialToggle<cr>", "Toggle [A]erial" },
-    c = { ":Telescope colorscheme sorting_strategy=ascending<cr>", "Colorschemes" },
+    c = { ":Telescope colorscheme sorting_strategy=ascending<cr>", "Search [C]olorschemes" },
     d = {
       ":ToggleDiag<cr><c-l>"
       .. ":lua print('LSP diagnostics toggled.')<cr>"
       ,
-      "Toggle LSP diagnostics"
+      "Toggle LSP [d]iagnostics"
     },
     e = { ":Telescope emoji<cr>", "Search for [e]moji" },
     g = { ":G<cr>", "Open Fu[g]itive" },
-    l = { ":Lazy<cr>", "Open [Lazy]" },
+    l = { ":Lazy<cr>", "Open [L]azy" },
     m = { ":Mason<cr>", "Open [M]ason" },
     n = { ":set number!<cr>", "Toggle line [n]umbers" },
     N = { ":NoNeckPain<cr>", "Toggle [N]oNeckPain" },
-    i = { ":IBLToggle<cr>", "Toggle indentation guides" },
-    s = { ":set spell!<cr>", "Toggle spellcheck" },
+    i = { ":IBLToggle<cr>", "Toggle [i]ndentation guides" },
+    s = { ":set spell!<cr>", "Toggle [s]pellcheck" },
     t = { ":NvimTreeToggle<cr>", "Toggle [T]ree" },
     w = { ":set wrap!<cr>", "Toggle [w]rap" },
     W = { function()
