@@ -163,6 +163,9 @@ local wk_mappings = {
       "Toggle LSP diagnostics"
     },
     e = { ":Telescope emoji<cr>", "Search for [e]moji" },
+    g = { ":G<cr>", "Open Fu[g]itive" },
+    l = { ":Lazy<cr>", "Open [Lazy]" },
+    m = { ":Mason<cr>", "Open [M]ason" },
     n = { ":set number!<cr>", "Toggle line [n]umbers" },
     N = { ":NoNeckPain<cr>", "Toggle [N]oNeckPain" },
     i = { ":IBLToggle<cr>", "Toggle indentation guides" },
