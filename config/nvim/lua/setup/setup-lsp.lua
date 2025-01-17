@@ -10,15 +10,6 @@ require('toggle_lsp_diagnostics').init(vim.diagnostic.config())
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = require("util.lsp_mappings").on_attach
 
--- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>l'] = { name = '[L]SP Workspace', _ = 'which_key_ignore' },
-}
-
 -- mason-lspconfig requires that these setup functions are called in this order
 -- before setting up the servers.
 require('mason').setup()

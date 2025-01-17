@@ -54,6 +54,21 @@ local on_attach = function(_, bufnr)
 
   -- stop this from being overridden (?)
   vim.o.formatoptions = 'tcqnjr'
+
+-- document key chains
+  require('which-key').add {
+    { "<leader>c", group = "[C]ode" },
+    { "<leader>c_", hidden = true },
+    { "<leader>g", group = "[G]it" },
+    { "<leader>g_", hidden = true },
+    { "<leader>h", group = "More git" },
+    { "<leader>h_", hidden = true },
+    { "<leader>l", group = "[L]SP Workspace" },
+    { "<leader>l_", hidden = true },
+    { "<leader>s", group = "[S]earch" },
+    { "<leader>s_", hidden = true },
+  }
+
 end
 
 return {

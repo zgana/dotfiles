@@ -32,10 +32,10 @@ vim.keymap.set("c", "<c-n>", "<down>", { desc = "Go to next similar command" })
 
 -- luasnip
 local ls = require('luasnip')
-vim.keymap.set({'i'}, '<c-k>', function() ls.expand() end, { silent = true })
-vim.keymap.set({'i', 's'}, '<c-l>', function() ls.jump( 1) end, { silent = true })
-vim.keymap.set({'i', 's'}, '<c-j>', function() ls.jump(-1) end, { silent = true })
-vim.keymap.set({'i', 's'}, '<c-e>', function()
+vim.keymap.set({ 'i' }, '<c-k>', function() ls.expand() end, { silent = true })
+vim.keymap.set({ 'i', 's' }, '<c-l>', function() ls.jump(1) end, { silent = true })
+vim.keymap.set({ 'i', 's' }, '<c-j>', function() ls.jump(-1) end, { silent = true })
+vim.keymap.set({ 'i', 's' }, '<c-e>', function()
   if ls.choice_active() then
     ls.change_choice(1)
   end
@@ -47,160 +47,147 @@ local dapui = require("dapui")
 local wk = require('which-key')
 
 local wk_mappings = {
-  -- windows
-  w = {
-    v = { "<c-w><c-v>", "Create vertical split to right" },
-    V = { "<c-w><c-v><c-w>l", "Create and enter vertical split to right" },
-    s = { "<c-w><c-s>", "Create split below" },
-    S = { "<c-w><c-s><c-w>j", "Create and enter split below" },
 
-    -- w = { "<c-w><c-w>", "Enter next window" },
-    w = { ":w<cr>", "Write buffer in current window" },
-    h = { "<c-w>h", "Enter window to left" },
-    l = { "<c-w>l", "Enter window to right" },
-    k = { "<c-w>k", "Enter window above" },
-    j = { "<c-w>j", "Enter window below" },
+  -- direct to numbers
+  { "<leader>1",   "1<c-w><c-w>",                                 desc = "Enter window #1" },
+  { "<leader>2",   "2<c-w><c-w>",                                 desc = "Enter window #2" },
+  { "<leader>3",   "3<c-w><c-w>",                                 desc = "Enter window #3" },
+  { "<leader>4",   "4<c-w><c-w>",                                 desc = "Enter window #4" },
+  { "<leader>5",   "5<c-w><c-w>",                                 desc = "Enter window #5" },
+  { "<leader>6",   "6<c-w><c-w>",                                 desc = "Enter window #6" },
+  { "<leader>7",   "7<c-w><c-w>",                                 desc = "Enter window #7" },
+  { "<leader>8",   "8<c-w><c-w>",                                 desc = "Enter window #8" },
+  { "<leader>9",   "9<c-w><c-w>",                                 desc = "Enter window #9" },
 
-    o = { "<c-w>o", "Keep only the current active window" },
-    q = { "<c-w>q", "Quit the current active window" },
-    x = { ":copen<cr>", "Open new buffer in new window" },
-
-    ["1"] = { "1<c-w><c-w>", "Enter window #1" },
-    ["2"] = { "2<c-w><c-w>", "Enter window #2" },
-    ["3"] = { "3<c-w><c-w>", "Enter window #3" },
-    ["4"] = { "4<c-w><c-w>", "Enter window #4" },
-    ["5"] = { "5<c-w><c-w>", "Enter window #5" },
-    ["6"] = { "6<c-w><c-w>", "Enter window #6" },
-    ["7"] = { "7<c-w><c-w>", "Enter window #7" },
-    ["8"] = { "8<c-w><c-w>", "Enter window #8" },
-    ["9"] = { "9<c-w><c-w>", "Enter window #9" },
-  },
-
-  -- windows (direct switch)
-  ["1"] = { "1<c-w><c-w>", "Enter window #1" },
-  ["2"] = { "2<c-w><c-w>", "Enter window #2" },
-  ["3"] = { "3<c-w><c-w>", "Enter window #3" },
-  ["4"] = { "4<c-w><c-w>", "Enter window #4" },
-  ["5"] = { "5<c-w><c-w>", "Enter window #5" },
-  ["6"] = { "6<c-w><c-w>", "Enter window #6" },
-  ["7"] = { "7<c-w><c-w>", "Enter window #7" },
-  ["8"] = { "8<c-w><c-w>", "Enter window #8" },
-  ["9"] = { "9<c-w><c-w>", "Enter window #9" },
+  -- deBugging
+  { "<leader>b",   group = "De[B]ug" },
+  { "<leader>b_",  hidden = true },
+  { "<leader>bb",  "<cmd> DapToggleBreakpoint <cr>",              desc = "Toggle [B]reakpoint" },
+  { "<leader>bi",  "<cmd> DapStepInto <cr>",                      desc = "[S]tep [I]nto" },
+  { "<leader>bo",  "<cmd> DapStepOut <cr>",                       desc = "[S]tep [O]ut" },
+  { "<leader>bs",  "<cmd> DapStepOver <cr>",                      desc = "[S]tep Over" },
+  { "<leader>bt",  "<cmd> DapTerminate <cr>",                     desc = "[T]erminate" },
+  { "<leader>bu",  dapui.toggle,                                  desc = "[U]I [T]oggle" },
 
 
-  -- tab pages
-  t = {
-    [","] = { ":tabmove -1<cr>", "Rearrange current tab to the left" },
-    ["."] = { ":tabmove +1<cr>", "Rearrange current tab to the right" },
-    ["t"] = { ":tabedit<cr>", "Open new [t]ab" },
-    ["q"] = { ":tabclose<cr>", "[Q]uit current tab" },
-    ["1"] = { "1gt", "Enter tab #1" },
-    ["2"] = { "2gt", "Enter tab #2" },
-    ["3"] = { "3gt", "Enter tab #3" },
-    ["4"] = { "4gt", "Enter tab #4" },
-    ["5"] = { "5gt", "Enter tab #5" },
-    ["6"] = { "6gt", "Enter tab #6" },
-    ["7"] = { "7gt", "Enter tab #7" },
-    ["8"] = { "8gt", "Enter tab #8" },
-    ["9"] = { "9gt", "Enter tab #9" },
-  },
+  { "<leader>c",   group = "[C]ode manipulation" },
+  { "<leader>c_",  hidden = true },
+  { "<leader>cL",  vim.lsp.codelens.refresh,                      desc = "Code[L]ens Refresh" },
+  { "<leader>cl",  vim.lsp.codelens.run,                          desc = "Code[L]ens Run" },
 
   -- files
-  f = {
-    -- name = "[F]iles",
-    -- _ = 'which_key_ignore',
-    o = {
-      f = { ":tabedit ~/.config/nvim/init.lua<cr>", "Edit root config" },
-      k = { ":tabedit ~/.config/nvim/lua/keymaps.lua<cr>", "Edit keymaps" },
-      n = { ":tabedit ~/.config/nvim/<cr>", "Edit root config directory" },
-      s = { ":tabedit ~/.dotfiles/<cr>", "Edit dotfiles directory" },
-    },
-    s = {
-      k = {
-        ":source ~/.config/nvim/lua/keymaps.lua<cr>"
-        .. ":lua print('Keymaps reloaded.')<cr>",
-        "Reload keymaps",
-        },
-      ["."] = {
-        ":source %<cr>"
-        .. ":lua print('Sourced.')<cr>",
-        "Source current file",
-      }
-    }
+  { "<leader>f",   group = "Config [F]iles" },
+  { "<leader>f_",  hidden = true },
+
+  -- files: open
+  { "<leader>fo",  group = "[O]pen..." },
+  { "<leader>fo_", hidden = true },
+  { "<leader>fof", ":tabedit ~/.config/nvim/init.lua<cr>",        desc = "Edit root config" },
+  { "<leader>fos", ":tabedit ~/.dotfiles/<cr>",                   desc = "Edit dotfiles directory" },
+
+  --files: source
+  { "<leader>fs",  group = "[S]ource..." },
+  { "<leader>fs_", hidden = true },
+  {
+    "<leader>fs.",
+    ":source %<cr>:lua print('Sourced.')<cr>",
+    desc = "Source current file"
+  },
+  {
+    "<leader>fsk",
+    ":source ~/.config/nvim/lua/keymaps.lua<cr>:lua print('Keymaps reloaded.')<cr>",
+    desc = "Reload keymaps",
+  },
+  {
+    "<leader>scr",
+    "<cmd> Telescope lsp_references <cr>",
+    desc = "[C]ode [R]eferences"
   },
 
-  -- debug
-  b = {
-    b = { "<cmd> DapToggleBreakpoint <cr>", "Toggle [B]reakpoint" },
-    i = { "<cmd> DapStepInto <cr>", "[S]tep [I]nto" },
-    s = { "<cmd> DapStepOver <cr>", "[S]tep Over" },
-    o = { "<cmd> DapStepOut <cr>", "[S]tep [O]ut" },
-    t = { "<cmd> DapTerminate <cr>", "[T]erminate" },
-    u = { dapui.toggle, "[U]I [T]oggle" },
-  },
-
-  -- code stuff
-  c = {
-    L = { vim.lsp.codelens.refresh, "Code[L]ens Refresh" },
-    l = { vim.lsp.codelens.run, "Code[L]ens Run" },
-  },
-
-  -- more search stuff
-  s = {
-    c = {
-      r = {  "<cmd> Telescope lsp_references <cr>", "[C]ode [R]eferences" },
-    },
-  },
+  -- tabs
+  { "<leader>t",  group = "[T]abs" },
+  { "<leader>t_", hidden = true },
+  { "<leader>t,", ":tabmove -1<cr>",         desc = "Rearrange current tab to the left" },
+  { "<leader>t.", ":tabmove +1<cr>",         desc = "Rearrange current tab to the right" },
+  { "<leader>t1", "1gt",                     desc = "Enter tab #1" },
+  { "<leader>t2", "2gt",                     desc = "Enter tab #2" },
+  { "<leader>t3", "3gt",                     desc = "Enter tab #3" },
+  { "<leader>t4", "4gt",                     desc = "Enter tab #4" },
+  { "<leader>t5", "5gt",                     desc = "Enter tab #5" },
+  { "<leader>t6", "6gt",                     desc = "Enter tab #6" },
+  { "<leader>t7", "7gt",                     desc = "Enter tab #7" },
+  { "<leader>t8", "8gt",                     desc = "Enter tab #8" },
+  { "<leader>t9", "9gt",                     desc = "Enter tab #9" },
+  { "<leader>tq", ":tabclose<cr>",           desc = "[Q]uit current tab" },
+  { "<leader>tt", ":tabedit<cr>",            desc = "Open new [t]ab" },
 
   -- UI
-  u = {
-    a = { ":AerialToggle<cr>", "Toggle [A]erial" },
-    c = { ":Telescope colorscheme sorting_strategy=ascending<cr>", "Search [C]olorschemes" },
-    d = {
-      ":ToggleDiag<cr><c-l>"
-      .. ":lua print('LSP diagnostics toggled.')<cr>"
-      ,
-      "Toggle LSP [d]iagnostics"
-    },
-    e = { ":Telescope emoji<cr>", "Search for [e]moji" },
-    g = { ":G<cr>", "Open Fu[g]itive" },
-    l = { ":Lazy<cr>", "Open [L]azy" },
-    m = { ":Mason<cr>", "Open [M]ason" },
-    n = { ":set number!<cr>", "Toggle line [n]umbers" },
-    N = { ":NoNeckPain<cr>", "Toggle [N]oNeckPain" },
-    i = { ":IBLToggle<cr>", "Toggle [i]ndentation guides" },
-    s = { ":set spell!<cr>", "Toggle [s]pellcheck" },
-    t = { ":NvimTreeToggle<cr>", "Toggle [T]ree" },
-    w = { ":set wrap!<cr>", "Toggle [w]rap" },
-    W = { function()
+  { "<leader>u",  group = "[U]ser Interface" },
+  { "<leader>u_", hidden = true },
+  { "<leader>uN", ":NoNeckPain<cr>",         desc = "Toggle [N]oNeckPain" },
+  {
+    "<leader>uW",
+    function() -- TODO: extract and name
       local wrap = vim.o.wrap
       vim.o.wrap = not wrap
       vim.o.linebreak = not wrap
-    end, "Toggle [w]rap (text)" }
+    end,
+    desc = "Toggle [w]rap (text)"
   },
+  { "<leader>ua", ":AerialToggle<cr>",    desc = "Toggle [A]erial" },
+  {
+    "<leader>uc",
+    ":Telescope colorscheme sorting_strategy=ascending<cr>",
+    desc = "Search [C]olorschemes"
+  },
+  {
+    "<leader>ud",
+    ":ToggleDiag<cr><c-l>:lua print('LSP diagnostics toggled.')<cr>",
+    desc = "Toggle LSP [d]iagnostics",
+  },
+  { "<leader>ue", ":Telescope emoji<cr>", desc = "Search for [e]moji" },
+  { "<leader>ug", ":G<cr>",               desc = "Open Fu[g]itive" },
+  { "<leader>ui", ":IBLToggle<cr>",       desc = "Toggle [i]ndentation guides" },
+  { "<leader>ul", ":Lazy<cr>",            desc = "Open [L]azy" },
+  { "<leader>um", ":Mason<cr>",           desc = "Open [M]ason" },
+  { "<leader>un", ":set number!<cr>",     desc = "Toggle line [n]umbers" },
+  { "<leader>us", ":set spell!<cr>",      desc = "Toggle [s]pellcheck" },
+  { "<leader>ut", ":NvimTreeToggle<cr>",  desc = "Toggle [T]ree" },
+  { "<leader>uw", ":set wrap!<cr>",       desc = "Toggle [w]rap" },
 
-  -- section documentation
+  -- windows
+  { "<leader>w",  group = "[W]indows" },
+  { "<leader>w_", hidden = true },
+  { "<leader>w1", "1<c-w><c-w>",          desc = "Enter window #1" },
+  { "<leader>w2", "2<c-w><c-w>",          desc = "Enter window #2" },
+  { "<leader>w3", "3<c-w><c-w>",          desc = "Enter window #3" },
+  { "<leader>w4", "4<c-w><c-w>",          desc = "Enter window #4" },
+  { "<leader>w5", "5<c-w><c-w>",          desc = "Enter window #5" },
+  { "<leader>w6", "6<c-w><c-w>",          desc = "Enter window #6" },
+  { "<leader>w7", "7<c-w><c-w>",          desc = "Enter window #7" },
+  { "<leader>w8", "8<c-w><c-w>",          desc = "Enter window #8" },
+  { "<leader>w9", "9<c-w><c-w>",          desc = "Enter window #9" },
+  { "<leader>wS", "<c-w><c-s><c-w>j",     desc = "Create and enter split below" },
+  { "<leader>wV", "<c-w><c-v><c-w>l",     desc = "Create and enter vertical split to right" },
+  { "<leader>wh", "<c-w>h",               desc = "Enter window to left" },
+  { "<leader>wj", "<c-w>j",               desc = "Enter window below" },
+  { "<leader>wk", "<c-w>k",               desc = "Enter window above" },
+  { "<leader>wl", "<c-w>l",               desc = "Enter window to right" },
+  { "<leader>wo", "<c-w>o",               desc = "Keep only the current active window" },
+  { "<leader>wq", "<c-w>q",               desc = "Quit the current active window" },
+  { "<leader>ws", "<c-w><c-s>",           desc = "Create split below" },
+  { "<leader>wv", "<c-w><c-v>",           desc = "Create vertical split to right" },
+  { "<leader>ww", ":w<cr>",               desc = "Write buffer in current window" },
+  { "<leader>wx", ":copen<cr>",           desc = "Open new buffer in new window" },
 
 }
 
 local wk_opts = {
-  prefix = "<leader>",
   silent = true,
 }
 
-wk.register(wk_mappings, wk_opts)
+wk.add(wk_mappings, wk_opts)
 
-
-local wk_docs = {
-  ["<leader>b"] = { name = "De[B]ug", _ = "which_key_ignore"},
-  ["<leader>f"] = { name = "Config [F]iles", _ = "which_key_ignore"},
-  ["<leader>fo"] = { name = "[O]pen...", _ = "which_key_ignore"},
-  ["<leader>fs"] = { name = "[S]ource...", _ = "which_key_ignore"},
-  ["<leader>u"] = { name = "[U]ser Interface", _ = "which_key_ignore"},
-  ["<leader>t"] = { name = "[T]abs", _ = "which_key_ignore"},
-  ["<leader>w"] = { name = "[W]indows", _ = "which_key_ignore"},
-}
-wk.register(wk_docs, { silent = true })
 
 -- -- [[ Highlight on yank ]]
 -- -- See `:help vim.highlight.on_yank()`
