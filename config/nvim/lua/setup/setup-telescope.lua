@@ -82,7 +82,7 @@ end
 
 -- finding files
 nmap('<leader><space>', tb.oldfiles, '[ ] Find recently opened files')
-nmap('<leader><tab>', tb.oldfiles, '[\\t] Find existing buffers')
+nmap('<leader><tab>', tb.buffers, '[\\t] Find existing buffers')
 nmap('<leader>/f', tb.find_files, 'Find [f]iles in cwd')
 nmap('<leader>/g', tb.git_files, 'Find files in [g]it repo')
 
