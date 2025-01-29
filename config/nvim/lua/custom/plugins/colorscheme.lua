@@ -7,6 +7,8 @@ return {
   cslike("sainnhe/everforest"),
   cslike("rebelot/kanagawa.nvim"),
   cslike("savq/melange-nvim"),
+  cslike("dgox16/oldworld.nvim"),
+  cslike("mellow-theme/mellow.nvim"),
 
   -- catpuccin rename catppuccin on the fly so it isn't called "nvim"
   { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
