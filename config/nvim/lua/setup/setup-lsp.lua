@@ -74,10 +74,6 @@ local servers = {
   html = { filetypes = { 'html', 'twig', 'hbs' } },
 
   lua_ls = {
-    Lua = {
-      workspace = { checkThirdParty = false },
-      telemetry = { enable = false },
-    },
   },
 
 }
@@ -113,7 +109,23 @@ mason_lspconfig.setup_handlers {
       filetypes = (settings or {}).filetypes,
     }
   end,
+
   ["rust_analyzer"] = function() end,
+
+  -- ["lua_ls"] = function(client)
+  --   -- see also:
+  --   -- https://github.com/neovim/neovim/discussions/24119
+  --   Lua = {
+  --     runtime = { version = 'LuaJIT' },
+  --     workspace = {
+  --       checkThirdParty = false,
+  --       telemetry = { enable = false },
+  --       library = {
+  --         vim.env.VIMRUNTIME
+  --       }
+  --     }
+  --   }
+  -- end,
 }
 
 
