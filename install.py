@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run
 
 
 import datetime
@@ -9,6 +9,8 @@ from glob import glob
 
 
 base_install_dirs = {
+    # ghostty
+    "config/ghostty": ".config/ghostty",
     # vim
     "config/nvim": ".config/nvim",
     # home
