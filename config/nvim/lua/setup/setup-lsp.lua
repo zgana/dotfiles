@@ -64,6 +64,30 @@ local servers = {
         buildScripts = {
           enable = true,
         }
+      },
+      files = {
+        excludeDirs = {
+          "_build",
+          ".dart_tool",
+          ".flatpak-builder",
+          ".git",
+          ".gitlab",
+          ".gitlab-ci",
+          ".gradle",
+          ".idea",
+          ".next",
+          ".project",
+          ".scannerwork",
+          ".settings",
+          ".venv",
+          "archetype-resources",
+          "bin",
+          "hooks",
+          "node_modules",
+          "po",
+          "screenshots",
+          "target",
+        }
       }
     }
   },
@@ -81,6 +105,10 @@ local servers = {
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- https://github.com/hrsh7th/cmp-nvim-lsp/issues/44#issuecomment-2096368152
+capabilities.workspace = { didChangeWatchedFiles = { dynamicRegistration = true } }
+
 
 -- Ensure the servers above are installed
 local mason_lspconfig = require 'mason-lspconfig'
