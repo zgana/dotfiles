@@ -1,15 +1,9 @@
 # input
 mouse-scroll-multiplier = 0.5
 
-# window
-window-height = 70
-window-width = 200
-
 # general appearance
 # background-opacity = 0.99
 theme = deep
 
-# font
-font-family = Hack Nerd Font
-font-size = 10
-font-thicken = true
+# local
+config-file = ?config.local
