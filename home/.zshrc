@@ -170,6 +170,13 @@ function tm() {
   fi
 }
 
+# ghostty
+if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
+    export TERM=xterm-256color
+fi
+bindkey -M viins '^[[91;5u' vi-cmd-mode
+bindkey -M vicmd '^[[91;5u' vi-cmd-mode
+
 # default highlight unless overridden in .zshrc.local
 export MY_TMUX_HIGHLIGHT="#87afd7"
 
