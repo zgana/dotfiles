@@ -84,7 +84,9 @@ end
 nmap('<leader><space>', tb.oldfiles, '[ ] Find recently opened files')
 nmap('<leader><tab>', tb.buffers, '[\\t] Find existing buffers')
 nmap('<leader>/f', tb.find_files, 'Find [f]iles in cwd')
-nmap('<leader>/g', tb.git_files, 'Find files in [g]it repo')
+nmap('<leader>/g', function()
+  tb.git_files({show_untracked = true})
+end, 'Find files in [g]it repo')
 
 -- searching for nearby file contents
 nmap('<leader>//', tb.current_buffer_fuzzy_find, '[/] Search current buffer')
