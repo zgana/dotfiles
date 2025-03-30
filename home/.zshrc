@@ -139,14 +139,14 @@ then
 fi
 
 
-# ls
-function lt() {
-  if test "x$1" = "x"; then
-    ls | tail
-  else
-    ls | tail -n$1
-  fi
-}
+# ls colors
+if type vivid > /dev/null; then
+  export LS_COLORS=$(vivid generate iceberg-dark)
+fi
+alias ls='LC_ALL="C.utf8" ls --color -h --group-directories-first'
+if type gls > /dev/null 2>&1; then
+  alias ls='LC_ALL="C.utf8" gls --color -h --group-directories-first'
+fi
 
 # tmux
 function tm() {

@@ -12,3 +12,4 @@ ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=fg=cyan
 ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=cyan,bold
 ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=blue,bold
 ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan
+ZSH_HIGHLIGHT_STYLES[comment]=fg=#999
