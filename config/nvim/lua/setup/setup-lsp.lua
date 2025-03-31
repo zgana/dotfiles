@@ -35,12 +35,11 @@ local servers = {
   },
 
 
-  pyright = {
+  -- pyright = {
+  basedpyright = {
     python = {
       analysis = {
         typeCheckingMode = "basic"
-        -- consider:
-        -- typeCheckingMode = "off"
       }
     }
   },
