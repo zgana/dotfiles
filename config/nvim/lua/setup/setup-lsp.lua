@@ -34,15 +34,24 @@ local servers = {
     filetypes = { 'sh', 'bash', 'zsh', },
   },
 
-
-  -- pyright = {
   basedpyright = {
-    python = {
+    basedpyright = {
       analysis = {
-        typeCheckingMode = "basic"
-      }
-    }
+        diagnosticMode = 'openFilesOnly',
+        typeCheckingMode = 'basic',
+        useLibraryCodeForTypes = true,
+        -- diagnosticSeverityOverrides = {
+        --   autoSearchPaths = true,
+        --   enableTypeIgnoreComments = false,
+        --   reportGeneralTypeIssues = 'none',
+        --   reportArgumentType = 'none',
+        --   reportUnknownMemberType = 'none',
+        --   reportAssignmentType = 'none',
+        -- },
+      },
+    },
   },
+
 
   ruff = {},
 
