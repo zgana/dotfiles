@@ -47,15 +47,6 @@ local plugins = {
   -- "zen" centered editing
   'shortcuts/no-neck-pain.nvim',
 
-  -- Highlight, edit, and navigate code
-  {
-    'nvim-treesitter/nvim-treesitter',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter-textobjects',
-    },
-    build = ':TSUpdate',
-  },
-
   -- NOTE: Next Step on Your Neovim Journey: Add/Configure additional "plugins" for kickstart
   --       These are some example plugins that I've included in the kickstart repository.
   --       Uncomment any of the lines below to enable them.

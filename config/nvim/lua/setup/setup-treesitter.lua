@@ -12,7 +12,8 @@ vim.defer_fn(function()
     ensure_installed = {
       'c', 'cpp', 'go', 'lua',
       'java', 'scala',
-      'markdown',
+      'html', 'css',
+      'latex', 'markdown',
       'python',
       'rust',
       'tsx', 'javascript', 'typescript',
