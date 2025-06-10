@@ -157,6 +157,35 @@
     },
 
     {
+      "description": "Map option + [ to escape (physically command + -) in VS Code",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "hyphen",
+            "modifiers": {
+              "mandatory": ["shift", "right_control"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "escape"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com.microsoft.VSCode$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
       "description": "Map right option to ctrl in Obsidian",
       "manipulators": [
         {
@@ -177,6 +206,62 @@
               "type": "frontmost_application_if",
               "bundle_identifiers": [
                 "^md.obsidian.*$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "Map shift+option+arrow to move tab in Chrome/Firefox",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "left_arrow",
+            "modifiers": {
+              "mandatory": ["shift", "option", "command"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "page_up",
+              "modifiers": ["shift", "control"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^org.mozilla.firefox$",
+                "^com.google.Chrome$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "right_arrow",
+            "modifiers": {
+              "mandatory": ["shift", "option", "command"],
+              "optional": ["any"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "page_down",
+              "modifiers": ["shift", "control"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^org.mozilla.firefox$",
+                "^com.google.Chrome$"
               ]
             }
           ]
