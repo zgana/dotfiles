@@ -7,4 +7,5 @@ theme = deep
 
 # local
 config-file = ?/Users/mrichman/.config/ghostty/config.local
+config-file = ?/Users/michael.richman/.config/ghostty/config.local
 config-file = ?/home/mike/.config/ghostty/config.local
