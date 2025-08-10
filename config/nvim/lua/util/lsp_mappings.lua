@@ -35,8 +35,8 @@ local on_attach = function(_, bufnr)
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
 
-  -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+  nmap("gD", "<cmd>tab split | lua vim.lsp.buf.definition()<CR>", "[G]oto [D]efinition in new tab")
+
   nmap('<leader>lfa', vim.lsp.buf.add_workspace_folder, '[L]SP Workspace [F]older [A]dd')
   nmap('<leader>lfr', vim.lsp.buf.remove_workspace_folder, '[L]SP Workspace [F]older [R]emove')
   nmap('<leader>lfl', function()
@@ -46,11 +46,6 @@ local on_attach = function(_, bufnr)
   nmap('<leader>li', ":LspInfo<cr>", '[L]SP [I]nfo')
   nmap('<leader>ll', ":LspLog<cr>", '[L]SP [L]og')
   nmap('<leader>lr', ":LspRestart<cr>", '[L]SP [R]estart')
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
-    vim.lsp.buf.format()
-  end, { desc = 'Format current buffer with LSP' })
 
   -- stop this from being overridden (?)
   vim.o.formatoptions = 'tcqnjr'

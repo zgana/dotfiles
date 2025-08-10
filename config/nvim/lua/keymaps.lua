@@ -9,9 +9,9 @@ vim.keymap.set('i', '<M-v>', '<c-o>:set paste<cr><c-r>+<c-o>:set nopaste<cr>', {
 vim.keymap.set('s', '<M-v>', 'c<c-o>"+P', { silent = true })
 vim.keymap.set('c', '<M-v>', '<c-r>+ <backspace>', { silent = true })
 vim.keymap.set('v', '<M-c>', '"+y', { silent = true })
-vim.keymap.set('v', '<leader>y', '"+y', { silent = true })
 vim.keymap.set('v', 'gy', '"+y', { silent = true })
 vim.keymap.set('n', 'gy', '"+y', { silent = true })
+vim.keymap.set('n', '<leader>yy', '<cmd>%yank +<cr>', { silent = false })
 
 
 if vim.fn.has('macunix') ~= 0 then
