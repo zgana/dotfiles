@@ -1,5 +1,5 @@
 {
-  "title": "mrichman-Vim-Dvorak style escape key mapping",
+  "title": "mrichman-Vim-Dvorak style mappings",
   "rules": [
     {
       "description": "Map command + [ to escape (physically command + -)",
@@ -199,6 +199,35 @@
           "to": [
             {
               "key_code": "right_control"
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^md.obsidian.*$"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "description": "Map right option + w (physically opt+,) to ctrl+w in Obsidian",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "comma",
+            "modifiers": {
+              "mandatory": ["right_option"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace",
+              "modifiers": ["right_option"]
             }
           ],
           "conditions": [
