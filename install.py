@@ -11,6 +11,8 @@ from glob import glob
 base_install_dirs = {
     # ghostty
     "config/ghostty": ".config/ghostty",
+    # karabiner
+    "config/karabiner/assets/complex_modifications": ".config/karabiner/assets/complex_modifications",
     # vim
     "config/nvim": ".config/nvim",
     # home
