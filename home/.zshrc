@@ -250,6 +250,7 @@ source $ZSH_CUSTOM/aws.zsh
 # Git
 alias gbc='git branch | cat'
 alias glf='git pull --ff'
+alias glri='git pull --rebase=interactive'
 
 # PATH
 # jk, set this in .zprofile instead
