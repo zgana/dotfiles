@@ -187,6 +187,10 @@ local wk_mappings = {
   { "<leader>ww", ":w<cr>",                               desc = "Write buffer in current window" },
   { "<leader>wx", ":copen<cr>",                           desc = "Open new buffer in new window" },
   { "<leader>w=", "<c-w>=",                               desc = "Make all windows equal size" },
+  { "<leader>w<", "<c-w><",                               desc = "Decrease window width" },
+  { "<leader>w>", "<c-w>>",                               desc = "Increase window width" },
+  { "<leader>w-", "<c-w>-",                               desc = "Decrease window height" },
+  { "<leader>w+", "<c-w>+",                               desc = "Increase window height" },
 
 }
 
