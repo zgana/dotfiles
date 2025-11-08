@@ -3,7 +3,7 @@ mouse-scroll-multiplier = 0.5
 
 # general appearance
 # background-opacity = 0.99
-theme = deep
+theme = Deep
 
 # local
 config-file = ?/Users/mrichman/.config/ghostty/config.local
