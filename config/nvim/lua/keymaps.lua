@@ -55,31 +55,31 @@ local wk = require('which-key')
 local wk_mappings = {
 
   -- direct to numbers
-  { "<leader>1",   "1<c-w><c-w>",                                   desc = "Enter window #1" },
-  { "<leader>2",   "2<c-w><c-w>",                                   desc = "Enter window #2" },
-  { "<leader>3",   "3<c-w><c-w>",                                   desc = "Enter window #3" },
-  { "<leader>4",   "4<c-w><c-w>",                                   desc = "Enter window #4" },
-  { "<leader>5",   "5<c-w><c-w>",                                   desc = "Enter window #5" },
-  { "<leader>6",   "6<c-w><c-w>",                                   desc = "Enter window #6" },
-  { "<leader>7",   "7<c-w><c-w>",                                   desc = "Enter window #7" },
-  { "<leader>8",   "8<c-w><c-w>",                                   desc = "Enter window #8" },
-  { "<leader>9",   "9<c-w><c-w>",                                   desc = "Enter window #9" },
+  { "<leader>1",   "1<c-w><c-w>",                                      desc = "Enter window #1" },
+  { "<leader>2",   "2<c-w><c-w>",                                      desc = "Enter window #2" },
+  { "<leader>3",   "3<c-w><c-w>",                                      desc = "Enter window #3" },
+  { "<leader>4",   "4<c-w><c-w>",                                      desc = "Enter window #4" },
+  { "<leader>5",   "5<c-w><c-w>",                                      desc = "Enter window #5" },
+  { "<leader>6",   "6<c-w><c-w>",                                      desc = "Enter window #6" },
+  { "<leader>7",   "7<c-w><c-w>",                                      desc = "Enter window #7" },
+  { "<leader>8",   "8<c-w><c-w>",                                      desc = "Enter window #8" },
+  { "<leader>9",   "9<c-w><c-w>",                                      desc = "Enter window #9" },
 
   -- deBugging
   { "<leader>b",   group = "De[B]ug" },
   { "<leader>b_",  hidden = true },
-  { "<leader>bb",  "<cmd> DapToggleBreakpoint <cr>",                desc = "Toggle [B]reakpoint" },
-  { "<leader>bi",  "<cmd> DapStepInto <cr>",                        desc = "[S]tep [I]nto" },
-  { "<leader>bo",  "<cmd> DapStepOut <cr>",                         desc = "[S]tep [O]ut" },
-  { "<leader>bs",  "<cmd> DapStepOver <cr>",                        desc = "[S]tep Over" },
-  { "<leader>bt",  "<cmd> DapTerminate <cr>",                       desc = "[T]erminate" },
-  { "<leader>bu",  dapui.toggle,                                    desc = "[U]I [T]oggle" },
+  { "<leader>bb",  "<cmd> DapToggleBreakpoint <cr>",                   desc = "Toggle [B]reakpoint" },
+  { "<leader>bi",  "<cmd> DapStepInto <cr>",                           desc = "[S]tep [I]nto" },
+  { "<leader>bo",  "<cmd> DapStepOut <cr>",                            desc = "[S]tep [O]ut" },
+  { "<leader>bs",  "<cmd> DapStepOver <cr>",                           desc = "[S]tep Over" },
+  { "<leader>bt",  "<cmd> DapTerminate <cr>",                          desc = "[T]erminate" },
+  { "<leader>bu",  dapui.toggle,                                       desc = "[U]I [T]oggle" },
 
 
   { "<leader>c",   group = "[C]ode manipulation" },
   { "<leader>c_",  hidden = true },
-  { "<leader>cL",  vim.lsp.codelens.refresh,                        desc = "Code[L]ens Refresh" },
-  { "<leader>cl",  vim.lsp.codelens.run,                            desc = "Code[L]ens Run" },
+  { "<leader>cL",  vim.lsp.codelens.refresh,                           desc = "Code[L]ens Refresh" },
+  { "<leader>cl",  vim.lsp.codelens.run,                               desc = "Code[L]ens Run" },
 
   -- files
   { "<leader>f",   group = "Config [F]iles" },
@@ -88,8 +88,9 @@ local wk_mappings = {
   -- files: open
   { "<leader>fo",  group = "[O]pen..." },
   { "<leader>fo_", hidden = true },
-  { "<leader>fof", ":tabedit ~/.dotfiles/config/nvim/init.lua<cr>", desc = "Edit root config" },
-  { "<leader>fos", ":tabedit ~/.dotfiles/<cr>",                     desc = "Edit dotfiles directory" },
+  { "<leader>fof", ":tabedit ~/.dotfiles/config/nvim/init.lua<cr>",    desc = "Edit root config" },
+  { "<leader>fok", ":tabedit ~/.dotfiles/config/nvim/lua/keymaps.lua<cr>", desc = "Edit keymaps config" },
+  { "<leader>fos", ":tabedit ~/.dotfiles/<cr>",                        desc = "Edit dotfiles directory" },
 
   --files: source
   { "<leader>fs",  group = "[S]ource..." },
