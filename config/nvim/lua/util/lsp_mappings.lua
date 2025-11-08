@@ -17,15 +17,15 @@ local on_attach = function(_, bufnr)
 
   nmap('<leader>ca', vim.lsp.buf.code_action, 'Code [A]ction')
   vmap('<leader>ca', vim.lsp.buf.code_action, 'Code [A]ction')
-  nmap('<leader>cc', vim.lsp.buf.rename, '[C]hange name (rename)')
-  nmap('<leader>cr', vim.lsp.buf.references, '[R]eferences')
+  nmap('<leader>cr', vim.lsp.buf.rename, '[R]ename')
 
-  nmap('<leader>==', function() vim.lsp.buf.format { async = true } end, 'Format with LSP')
-  nmap('<leader>=.', function() require('conform').format { async = true } end, 'Format with Formatter')
+  nmap('<leader>=', function() vim.lsp.buf.format { async = true } end, 'Format with LSP')
+  vmap('<leader>=', function() vim.lsp.buf.format { async = true } end, 'Format with LSP')
+  nmap('<leader>+', function() require('conform').format { async = true } end, 'Format with Formatter')
   -- TODO: <leader>=i to fix imports, <leader>=a to fix all, etc
 
   nmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-  nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+  -- nmap('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
   nmap('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
   nmap('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
   nmap('<leader>csd', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
