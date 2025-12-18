@@ -5,6 +5,11 @@ mouse-scroll-multiplier = 0.5
 # background-opacity = 0.99
 theme = Deep
 
+# startup
+window-save-state = never
+window-inherit-working-directory = false
+working-directory = home
+
 # local
 config-file = ?/Users/mrichman/.config/ghostty/config.local
 config-file = ?/Users/michael.richman/.config/ghostty/config.local
