@@ -7,8 +7,12 @@ vim.filetype.add({
     [".*/.*%.toml.*%.jinja"] = "toml",
     [".*/.*%.ya?ml.*%.jinja"] = "yaml",
 
+    -- databricks
+    [".databrickscfg"] = "dosini",
+
     -- e.g. cloudformation
     [".*/*%.template"] = "yaml",
+
   },
 })
 
