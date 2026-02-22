@@ -40,10 +40,16 @@
     # light = true
 
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
 
 [diff]
     colorMoved = default
+
+[difftool]
+    prompt = true
+
+[diff]
+    tool = nvimdiff
 
 [push]
     default = current
