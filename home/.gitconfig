@@ -46,6 +46,7 @@
     colorMoved = default
 
 [push]
+    default = current
     autoSetupRemote = true
 
 [blame]
