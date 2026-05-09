@@ -15,6 +15,8 @@ base_install_dirs = {
     "config/karabiner/assets/complex_modifications": ".config/karabiner/assets/complex_modifications",
     # vim
     "config/nvim": ".config/nvim",
+    # touchegg
+    "config/touchegg": ".config/touchegg",
     # home
     "home": "",
     # python
