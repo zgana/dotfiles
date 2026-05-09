@@ -6,7 +6,7 @@ import datetime
 from pathlib import Path
 
 
-base_install_dirs: dict[str, str] = {
+BASE_INSTALL_DIRS: dict[str, str] = {
     # ghostty
     "config/ghostty": ".config/ghostty",
     # karabiner
@@ -26,10 +26,9 @@ base_install_dirs: dict[str, str] = {
     "oh-my-zsh/custom--themes": ".oh-my-zsh/custom/themes",
 }
 
-home: Path = Path.home()
-this_dir: Path = Path(__file__).resolve().parent
-install_dirs: dict[Path, Path] = {
-    this_dir / k: home / v for (k, v) in base_install_dirs.items()
+REPO_ROOT_DIR: Path = Path(__file__).resolve().parent
+INSTALL_DIRS: dict[Path, Path] = {
+    REPO_ROOT_DIR / k: Path.home() / v for (k, v) in BASE_INSTALL_DIRS.items()
 }
 
 
@@ -88,7 +87,7 @@ def main(dry: bool = False) -> None:
     Install all dotfiles by symlinking each source dir into $HOME.
     """
     # loop over install dirs
-    for src, dest in install_dirs.items():
+    for src, dest in INSTALL_DIRS.items():
         handle_dir(src, dest, dry=dry)
 
 
