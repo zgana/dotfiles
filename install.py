@@ -2,13 +2,10 @@
 
 
 import datetime
-import errno
-import os
-import re
-from glob import glob
+from pathlib import Path
 
 
-base_install_dirs = {
+base_install_dirs: dict[str, str] = {
     # ghostty
     "config/ghostty": ".config/ghostty",
     # karabiner
@@ -28,64 +25,67 @@ base_install_dirs = {
     "oh-my-zsh/custom--themes": ".oh-my-zsh/custom/themes",
 }
 
-home = os.getenv("HOME")
-this_dir = os.path.abspath(os.path.dirname(__file__))
-install_dirs = {
-    f"{this_dir}/{k}": f"{home}/{v}" for (k, v) in base_install_dirs.items()
+home: Path = Path.home()
+this_dir: Path = Path(__file__).resolve().parent
+install_dirs: dict[Path, Path] = {
+    this_dir / k: home / v for (k, v) in base_install_dirs.items()
 }
 
 
-def backup_name(path):
-    timestamp = str(datetime.datetime.now())
-    timestamp = re.sub(" ", "_", timestamp)
-    return "{}.dotfiles_backup_{}".format(path, timestamp)
+def backup_name(path: Path) -> Path:
+    """
+    Append a timestamp suffix to create a unique backup path.
+    """
+    timestamp = str(datetime.datetime.now()).replace(" ", "_")
+    return Path(f"{path}.dotfiles_backup_{timestamp}")
 
 
-def create_link(in_path, real_path, dry=False):
+def create_link(in_path: Path, real_path: Path, dry: bool = False) -> None:
+    """
+    Symlink in_path at real_path, backing up any existing target first.
+
+    Skips if real_path is already a symlink (even if pointing elsewhere).
+    """
+    in_path = Path(in_path)
+    real_path = Path(real_path)
     print(in_path)
     print(real_path)
-    # if it's already a link, move on
-    if os.path.islink(real_path):
+    if real_path.is_symlink():
         print("already a link:\n{}\n".format(real_path))
         return
-    # if it exists, create backup
-    if os.path.exists(real_path):
+    if real_path.exists():
         backup_path = backup_name(real_path)
         print("backing up:\n{} to {}".format(real_path, backup_path))
         if not dry:
-            os.rename(real_path, backup_path)
-    # create link
+            real_path.rename(backup_path)
     print("creating symlink:\n{} -> {}".format(real_path, in_path))
     if not dry:
-        os.symlink(in_path, real_path)
+        real_path.symlink_to(in_path)
     print()
 
 
-def ensure_dir(dirname):
-    """Make sure ``dirname`` exists and is a directory."""
-    if not os.path.isdir(dirname):
-        try:
-            os.makedirs(dirname, exist_ok=False)
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
-    return dirname
+def ensure_dir(dirname: Path) -> None:
+    """
+    Create dirname and parents if they don't already exist.
+    """
+    Path(dirname).mkdir(parents=True, exist_ok=True)
 
 
-def handle_dir(src, dest, dry=False):
-    in_paths = sorted(glob("{}/*".format(src)) + glob("{}/.*".format(src)))
-    real_paths = []
+def handle_dir(src: Path, dest: Path, dry: bool = False) -> None:
+    """
+    Symlink every entry from src into dest, sorted alphabetically.
+    """
+    src = Path(src)
+    dest = Path(dest)
     ensure_dir(dest)
-    for in_path in in_paths:
-        basename = os.path.basename(in_path)
-        real_path = "{}/{}".format(dest, basename)
-        real_paths.append(real_path)
-    # loop over install items
-    for in_path, real_path in zip(in_paths, real_paths):
-        create_link(in_path, real_path, dry=dry)
+    for item in sorted(src.iterdir()):
+        create_link(item, dest / item.name, dry=dry)
 
 
-def main():
+def main() -> None:
+    """
+    Install all dotfiles by symlinking each source dir into $HOME.
+    """
     # loop over install dirs
     for src, dest in install_dirs.items():
         handle_dir(src, dest, dry=False)
