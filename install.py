@@ -49,20 +49,23 @@ def create_link(in_path: Path, real_path: Path, dry: bool = False) -> None:
     in_path = Path(in_path)
     real_path = Path(real_path)
     print(in_path)
-    print(real_path)
+
     if real_path.is_symlink():
-        print("already a link:\n{}\n".format(real_path))
+        print("  already a link: {}\n".format(real_path))
         return
+
     if real_path.exists():
         backup_path = backup_name(real_path)
-        print("backing up:\n{} to {}".format(real_path, backup_path))
+        verb = "would back up" if dry else "backing up"
+        print("  {}:\n  {} to {}".format(verb, real_path, backup_path))
         if not dry:
             real_path.rename(backup_path)
-    print("creating symlink:\n{} -> {}".format(real_path, in_path))
+
+    verb = "would create symlink" if dry else "creating symlink"
+    print("  {}:\n  {} -> {}".format(verb, real_path, in_path))
     if not dry:
         real_path.symlink_to(in_path)
     print()
-
 
 def ensure_dir(dirname: Path) -> None:
     """
