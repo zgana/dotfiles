@@ -1,6 +1,7 @@
 #!/usr/bin/env -S uv run
 
 
+import argparse
 import datetime
 from pathlib import Path
 
@@ -82,14 +83,22 @@ def handle_dir(src: Path, dest: Path, dry: bool = False) -> None:
         create_link(item, dest / item.name, dry=dry)
 
 
-def main() -> None:
+def main(dry: bool = False) -> None:
     """
     Install all dotfiles by symlinking each source dir into $HOME.
     """
     # loop over install dirs
     for src, dest in install_dirs.items():
-        handle_dir(src, dest, dry=False)
+        handle_dir(src, dest, dry=dry)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Install dotfiles")
+    _ = parser.add_argument(
+        "--dry",
+        default=False,
+        action="store_true",
+        help="dry run (no filesystem changes)",
+    )
+    args = parser.parse_args()
+    main(dry=args.dry)
