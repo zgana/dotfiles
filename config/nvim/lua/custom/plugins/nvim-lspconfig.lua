@@ -98,22 +98,28 @@ return {
       },
     })
 
-    vim.lsp.config('basedpyright', {
-      basedpyright = {
-        analysis = {
-          diagnosticMode = 'openFilesOnly',
-          typeCheckingMode = 'basic',
-          useLibraryCodeForTypes = true,
-          -- diagnosticSeverityOverrides = {
-          --   autoSearchPaths = true,
-          --   enableTypeIgnoreComments = false,
-          --   reportGeneralTypeIssues = 'none',
-          --   reportArgumentType = 'none',
-          --   reportUnknownMemberType = 'none',
-          --   reportAssignmentType = 'none',
-          -- },
-        },
+    local basedpyright_config = {
+      analysis = {
+        diagnosticMode = 'openFilesOnly',
+        typeCheckingMode = 'basic',
+        useLibraryCodeForTypes = true,
       },
+    }
+
+    if vim.fn.hostname() == 'zgazkami' then
+      basedpyright_config.analysis.diagnosticSeverityOverrides = {
+        autoSearchPaths = true,
+        enableTypeIgnoreComments = false,
+        reportGeneralTypeIssues = 'none',
+        reportArgumentType = 'none',
+        reportUnknownMemberType = 'none',
+        reportAssignmentType = 'none',
+        reportMissingTypeStubs = false,
+      }
+    end
+
+    vim.lsp.config('basedpyright', {
+      basedpyright = basedpyright_config,
     })
 
 
