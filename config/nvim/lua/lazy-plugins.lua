@@ -26,7 +26,12 @@ local plugins = {
   'tpope/vim-sleuth',
   'tpope/vim-surround',
   'tpope/vim-repeat',
-  'tpope/vim-rsi',
+  {
+    'tpope/vim-rsi',
+    config = function()
+      vim.keymap.del("i", "<C-d>")
+    end
+  },
 
   -- "gc" to comment visual regions/lines
   { 'numToStr/Comment.nvim', opts = {} },
