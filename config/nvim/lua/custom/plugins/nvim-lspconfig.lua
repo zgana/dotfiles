@@ -51,9 +51,9 @@ return {
     "folke/neodev.nvim",
     'WhoIsSethDaniel/mason-tool-installer.nvim',
   },
-  config = function()
+  config = function(_, opts)
     require("mason").setup()
-    require("mason-lspconfig").setup()
+    require("mason-lspconfig").setup(opts)
 
     require('toggle_lsp_diagnostics').init(vim.diagnostic.config())
 
@@ -119,7 +119,9 @@ return {
     end
 
     vim.lsp.config('basedpyright', {
-      basedpyright = basedpyright_config,
+      settings = {
+        basedpyright = basedpyright_config,
+      },
     })
 
 

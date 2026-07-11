@@ -1,95 +1,71 @@
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
--- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
-vim.defer_fn(function()
-  require('nvim-treesitter.config').setup {
-    -- Add languages to be installed here that you want installed for treesitter
-    ensure_installed = {
-      'c', 'cpp', 'go', 'lua',
-      'java', 'scala',
-      'html', 'css',
-      'latex', 'markdown',
-      'python',
-      'rust',
-      'tsx', 'javascript', 'typescript',
-      'vimdoc', 'vim', 'bash'
-    },
+local ensure_installed = {
+  -- If a parser is missing entirely, reinstall from the nvim-treesitter repo:
+  -- `nvim -l scripts/install-parsers.lua python rust` (run in the plugin checkout).
+  'c', 'cpp', 'go', 'lua',
+  'java', 'scala',
+  'html', 'css',
+  'latex', 'markdown',
+  'python',
+  'rust',
+  'jsx', 'tsx', 'javascript', 'typescript',
+  'vimdoc', 'vim', 'bash'
+}
 
-    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
-    auto_install = false,
+local function install_missing_parsers()
+  local ok, treesitter = pcall(require, 'nvim-treesitter')
+  if not ok then
+    return
+  end
 
+  local installed = {}
+  for _, lang in ipairs(treesitter.get_installed()) do
+    installed[lang] = true
+  end
 
-    -- fold = {
-    --   enable = true,
-    --   disable = { "python" },
-    -- },
+  local missing = {}
+  for _, lang in ipairs(ensure_installed) do
+    if not installed[lang] then
+      missing[#missing + 1] = lang
+    end
+  end
 
-    highlight = {
-      enable = true
-    },
+  if #missing == 0 then
+    return
+  end
 
-    indent = {
-      enable = true,
-      disable = { "python", "rust", "markdown" }
-    },
+  -- Temporary stopgap until a clearer parser manager wins out upstream.
+  local install_ok, err = pcall(function()
+    treesitter.install(missing):wait(300000)
+  end)
 
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<c-space>',
-        node_incremental = '<c-space>',
-        scope_incremental = '<c-s>',
-        node_decremental = '<M-space>',
-      },
-    },
+  if not install_ok then
+    vim.schedule(function()
+      vim.notify(('Treesitter parser install failed: %s'):format(err), vim.log.levels.WARN)
+    end)
+  end
+end
 
-    textobjects = {
-      select = {
-        enable = true,
-        lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-        keymaps = {
-          -- You can use the capture groups defined in textobjects.scm
-          ['aa'] = '@parameter.outer',
-          ['ia'] = '@parameter.inner',
-          ['af'] = '@function.outer',
-          ['if'] = '@function.inner',
-          ['ac'] = '@class.outer',
-          ['ic'] = '@class.inner',
-        },
-      },
+install_missing_parsers()
 
-      move = {
-        enable = true,
-        set_jumps = true, -- whether to set jumps in the jumplist
-        goto_next_start = {
-          [']m'] = '@function.outer',
-          [']]'] = '@class.outer',
-        },
-        goto_next_end = {
-          [']M'] = '@function.outer',
-          [']['] = '@class.outer',
-        },
-        goto_previous_start = {
-          ['[m'] = '@function.outer',
-          ['[['] = '@class.outer',
-        },
-        goto_previous_end = {
-          ['[M'] = '@function.outer',
-          ['[]'] = '@class.outer',
-        },
-      },
+require('nvim-treesitter.config').setup {
+  -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+  ensure_installed = ensure_installed,
 
-      swap = {
-        enable = true,
-        swap_next = {
-          ['<leader>a'] = '@parameter.inner',
-        },
-        swap_previous = {
-          ['<leader>A'] = '@parameter.inner',
-        },
-      },
-    },
-  }
-end, 0)
+  -- fold = {
+  --   enable = true,
+  --   disable = { "python" },
+  -- },
+
+  highlight = {
+    enable = true
+  },
+
+  indent = {
+    enable = true,
+    disable = { "python", "rust", "markdown" }
+  },
+}
 
 -- vim: ts=2 sts=2 sw=2 et

@@ -52,7 +52,9 @@ return {
 
   },
 
-  config = function()
+  config = function(_, opts)
+    opts = opts or {}
+
     vim.keymap.set("n", "<leader>qq", function()
       require("quicker").toggle()
     end, {
@@ -81,6 +83,7 @@ return {
         desc = "Collapse quickfix context",
       },
     }
-    require("quicker").setup({keys = keys})
+    opts.keys = keys
+    require("quicker").setup(opts)
   end
 }
