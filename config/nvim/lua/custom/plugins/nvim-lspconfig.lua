@@ -42,6 +42,7 @@ return {
       "html",
       "cssls",
       "basedpyright",
+      "zls",
     },
     automatic_enable = true,
   },

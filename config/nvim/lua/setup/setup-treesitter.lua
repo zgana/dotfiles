@@ -8,7 +8,7 @@ local ensure_installed = {
   'html', 'css',
   'latex', 'markdown',
   'python',
-  'rust',
+  'rust', 'zig',
   'jsx', 'tsx', 'javascript', 'typescript',
   'vimdoc', 'vim', 'bash'
 }
