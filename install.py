@@ -27,9 +27,6 @@ BASE_INSTALL_DIRS: dict[str, str] = {
 }
 
 REPO_ROOT_DIR: Path = Path(__file__).resolve().parent
-INSTALL_DIRS: dict[Path, Path] = {
-    REPO_ROOT_DIR / k: Path.home() / v for (k, v) in BASE_INSTALL_DIRS.items()
-}
 
 
 def backup_name(path: Path) -> Path:
@@ -89,13 +86,15 @@ def handle_dir(src: Path, dest: Path, dry: bool = False) -> None:
         create_link(item, dest / item.name, dry=dry)
 
 
-def main(dry: bool = False) -> None:
+def main(dest: Path = Path.home(), dry: bool = False) -> None:
     """
-    Install all dotfiles by symlinking each source dir into $HOME.
+    Install all dotfiles by symlinking each source dir under dest.
     """
-    # loop over install dirs
-    for src, dest in INSTALL_DIRS.items():
-        handle_dir(src, dest, dry=dry)
+    dest = Path(dest).expanduser()
+    for src_name, dest_name in BASE_INSTALL_DIRS.items():
+        src = REPO_ROOT_DIR / src_name
+        install_dest = dest / dest_name
+        handle_dir(src, install_dest, dry=dry)
 
 
 if __name__ == "__main__":
@@ -106,5 +105,11 @@ if __name__ == "__main__":
         action="store_true",
         help="dry run (no filesystem changes)",
     )
+    _ = parser.add_argument(
+        "--dest",
+        default=Path.home(),
+        type=Path,
+        help="installation root (default: $HOME)",
+    )
     args = parser.parse_args()
-    main(dry=args.dry)
+    main(dest=args.dest, dry=args.dry)
