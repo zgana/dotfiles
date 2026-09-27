@@ -80,7 +80,11 @@ def handle_dir(src: Path, dest: Path, dry: bool = False) -> None:
     """
     src = Path(src)
     dest = Path(dest)
-    ensure_dir(dest)
+    if dry:
+        if not dest.exists():
+            print("  would create directory: {}".format(dest))
+    else:
+        ensure_dir(dest)
     for item in sorted(src.iterdir()):
         create_link(item, dest / item.name, dry=dry)
 
